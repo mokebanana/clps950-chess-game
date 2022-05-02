@@ -73,13 +73,10 @@ def displayGS(screen, gs):
         for column in range(numSquares):
             pieceName = board[row][column]
             if pieceName != "--":  # not empty square
-                screen.blit(p.transform.scale(imageDict[pieceName], (squareLength, squareLength)), (column * squareLength, row * squareLength))
+                screen.blit(p.transform.scale(imageDict[pieceName], (squareLength, squareLength)),
+                            (column * squareLength, row * squareLength))
 
 
-    """
-    TODO:
-    pieces hella big
-    """
 
 
 main()
