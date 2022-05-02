@@ -21,6 +21,7 @@ def pieceGraphics():
         imageDict['w' + piece] = p.image.load("pieceImages/w" + piece + ".png")
         imageDict['b' + piece] = p.image.load("pieceImages/b" + piece + ".png")
 
+
 def main():
     """
     Main Function
@@ -72,11 +73,13 @@ def displayGS(screen, gs):
         for column in range(numSquares):
             pieceName = board[row][column]
             if pieceName != "--":  # not empty square
-                screen.blit(imageDict[pieceName], p.Rect(column * squareLength, row * squareLength, squareLength,
-                                                       squareLength))
+                screen.blit(p.transform.scale(imageDict[pieceName], (squareLength, squareLength)), (column * squareLength, row * squareLength))
+
 
     """
     TODO:
-    
+    pieces hella big
     """
+
+
 main()
