@@ -5,7 +5,7 @@ Class for storing current state of game state for the chess game.
 
 
 class GameState:
-    def __init__(self, board):
+    def __init__(self):
         """
         The chess board is represented by 8x8 2d list
         Each character is represented by a 2-letter str.
@@ -15,6 +15,7 @@ class GameState:
 
             (character notations inspired by GitHub user mikolaj-skrzypczak)
         """
+
         self.board = [["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
                       ["bP", "bP", "bP", "bP", "bP", "bP", "bP", "bP"],
                       ["--", "--", "--", "--", "--", "--", "--", "--"],
@@ -39,13 +40,12 @@ class GameState:
             self.board[move.startRow][move.startCol] = "--"
 
 
+
+
 """
 Class for moving pieces from start to end square
     responsible for 
 """
-    def makeMove(self, move)
-
-
 class Move:
     def __init__(self, board, start, end):
         # store coordinates of start and end points of piece

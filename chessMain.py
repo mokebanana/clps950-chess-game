@@ -25,22 +25,22 @@ def main():
     """
     Main Function
     """
+
     p.init()  # initialize pygame
 
     screen = p.display.set_mode((boardLength, boardLength))
     screen.fill("white")
     pieceGraphics()
-
     # access GameState
-    gs = gameState.GameState
-
-    running = True
-    while running:
-        for e in p.event.get():
-            if e.type == p.QUIT:
-                running = False
-        displayGS(screen, gs)
-        p.display.flip()
+    # gs = gameState.GameState
+    #
+    # running = True
+    # while running:
+    #     for e in p.event.get():
+    #         if e.type == p.QUIT:
+    #             running = False
+    #     displayGS(screen, gs)
+    #     p.display.flip()
 
 
 def displayGS(screen, gs):
