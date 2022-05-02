@@ -32,15 +32,15 @@ def main():
     screen.fill("white")
     pieceGraphics()
     # access GameState
-    # gs = gameState.GameState
-    #
-    # running = True
-    # while running:
-    #     for e in p.event.get():
-    #         if e.type == p.QUIT:
-    #             running = False
-    #     displayGS(screen, gs)
-    #     p.display.flip()
+    gs = gameState.GameState()
+
+    running = True
+    while running:
+        for e in p.event.get():
+            if e.type == p.QUIT:
+                running = False
+        displayGS(screen, gs)
+        p.display.flip()
 
 
 def displayGS(screen, gs):
@@ -76,9 +76,7 @@ def displayGS(screen, gs):
                                                        squareLength))
 
     """
-    TODO: gs.board is not currently working, I am getting an error that says:
-        "AttributeError: type object 'GameState' has no attribute 'board'
+    TODO:
     
-    I have no idea why this is and it is driving me crazy!! - Angela
     """
 main()
