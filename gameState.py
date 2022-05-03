@@ -40,6 +40,8 @@ class GameState:
             self.board[move.startRow][move.startCol] = "--"
 
 
+class smartSquares:
+    def __init__(self):
 
 
 """

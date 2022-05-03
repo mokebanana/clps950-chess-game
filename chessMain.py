@@ -6,7 +6,7 @@ import numpy as np
 # global variables for board dimensions and piece graphics
 import gameState
 
-boardLength = 800
+boardLength = 500
 numSquares = 8
 squareLength = boardLength // numSquares
 imageDict = {}  # keys: piece name, val: corresponding image of piece

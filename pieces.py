@@ -2,7 +2,7 @@ class Pawn:
     def __init__(self, color, coord, onoff):
         self.color = color
         self.coord = coord
-        self.move = False
+        self.move = True
         self.onoff = onoff
 
         def move_to(self, new_coord):
@@ -47,7 +47,7 @@ class Knight:
     def __init__(self, color, coord, onoff):
           self.color = color
           self.coord = coord
-          self.move = False
+          self.move = True
           self.onoff = onoff
 
     def move_to(self, new_coord):
