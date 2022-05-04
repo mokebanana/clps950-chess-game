@@ -1,53 +1,81 @@
-class Pawn:
-    def __init__(self, color, coord, onoff):
+
+class chessPiece(): # parent class
+    def __init__(self, name, color, coord):
+        self.name = name
         self.color = color
         self.coord = coord
+<<<<<<< Updated upstream
         self.move = True
         self.onoff = onoff
+=======
+        self.canMove = False
+        self.onBoard = True
 
-        def move_to(self, new_coord):
+        def get_color(self):
+            return self.color
+
+        def get_coord(self):
+            return self.coord
+
+        def can_move(self):
+            return self.canMove
+
+        def is_on_board(self):
+            return self.onBoard
+
+        def moveTo(new_coord):
+            self.coord = new_coord
+
+class Pawn(chessPiece):
+    def __init__(self, name, color, coord):
+        super().__init__(name, color, coord)
+
+
+>>>>>>> Stashed changes
+
 
 class Bishop:
-    def __init__(self, color, coord, onoff):
+    def __init__(self, color, coord):
         self.color = color
         self.coord = coord
         self.move = False
-        self.onoff = onoff
+        self.onBoard = True
 
-        def move_to(self, new_coord):
 
 class King:
-    def __init__(self, color, coord, onoff):
+    def __init__(self, color, coord):
         self.color = color
         self.coord = coord
         self.move = False
-        self.onoff = onoff
+        self.onBoard = True
 
-        def move_to(self, new_coord):
 
 class Queen:
-    def __init__(self, color, coord, onoff):
+    def __init__(self, color, coord):
          self.color = color
          self.coord = coord
          self.move = False
-         self.onoff = onoff
+         self.onBoard = True
 
-         def move_to(self, new_coord):
 
 class Rook:
-    def __init__(self, color, coord, onoff):
+    def __init__(self, color, coord):
           self.color = color
           self.coord = coord
           self.move = False
-          self.onoff = onoff
+          self.onBoard = True
 
-          def move_to(self, new_coord):
 
 class Knight:
-    def __init__(self, color, coord, onoff):
+    def __init__(self, color, coord):
           self.color = color
           self.coord = coord
+<<<<<<< Updated upstream
           self.move = True
           self.onoff = onoff
 
     def move_to(self, new_coord):
+=======
+          self.move = False
+          self.onBoard = True
+>>>>>>> Stashed changes
