@@ -4,10 +4,8 @@ class chessPiece(): # parent class
         self.name = name
         self.color = color
         self.coord = coord
-<<<<<<< Updated upstream
+
         self.move = True
-        self.onoff = onoff
-=======
         self.canMove = False
         self.onBoard = True
 
@@ -31,7 +29,6 @@ class Pawn(chessPiece):
         super().__init__(name, color, coord)
 
 
->>>>>>> Stashed changes
 
 
 class Bishop:
@@ -70,12 +67,10 @@ class Knight:
     def __init__(self, color, coord):
           self.color = color
           self.coord = coord
-<<<<<<< Updated upstream
+
           self.move = True
-          self.onoff = onoff
+          self.onBoard = True
 
     def move_to(self, new_coord):
-=======
           self.move = False
           self.onBoard = True
->>>>>>> Stashed changes
