@@ -98,7 +98,7 @@ class Move:
     rowsToRanks = {v: k for k, v in ranksToRows.items()}
     filesToColumns = {"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7}
     columnsToFiles = {v: k for k, v in filesToColumns.items()}
-    #print chess notation for move
+    #print chess notation for moves
     def chessNotation(self):
         return self.getRankFile(self.startR, self.startC) + self.getRankFile(self.endR, self.endC)
     def RankAndFile(self, r, c):

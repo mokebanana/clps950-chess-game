@@ -23,7 +23,7 @@ class chessPiece(): # parent class
 
         def moveTo(new_coord):
             self.coord = new_coord
-
+# classes for the pieces themselves
 class Pawn(chessPiece):
     def __init__(self, name, color, coord):
         super().__init__(name, color, coord)
