@@ -13,10 +13,8 @@ class GameState:
             1st char: color ('b', 'w')
             2nd char: piece type ('R', 'N', 'B', 'Q', 'K' or 'p')
             empty space: '--'
-
-            (character notations inspired by GitHub user mikolaj-skrzypczak)
         """
-        __import__('pieces.py')
+        import pieces
         #black pieces starting positions
         br1 = pieces.Rook("bR", True, (0, 0))
         bn1 = pieces.Knight("bN", True, (0, 1))
@@ -34,6 +32,7 @@ class GameState:
         bp6 = pieces.Pawn("bP", True, (1, 5))
         bp7 = pieces.Pawn("bP", True, (1, 6))
         bp8 = pieces.Pawn("bP", True, (1, 7))
+
         #white pieces starting positions
         wr1 = pieces.Rook("bR", True, (7, 0))
         wn1 = pieces.Knight("bN", True, (7, 1))
@@ -51,6 +50,10 @@ class GameState:
         wp6 = pieces.Pawn("bP", True, (6, 5))
         wp7 = pieces.Pawn("bP", True, (6, 6))
         wp8 = pieces.Pawn("bP", True, (6, 7))
+
+        import squares
+
+
 
         self.board = [["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
                       ["bP", "bP", "bP", "bP", "bP", "bP", "bP", "bP"],
@@ -93,15 +96,6 @@ class Move:
 
         # target square of piece [second click]
         self.endSquare = board[self.endR][self.endC]
-    #change matrix to chess notation
-    ranksToRows = {"1":7, "2":6, "3":5, "4":4, "5":3, "6":2, "7":1, "8":0}
-    rowsToRanks = {v: k for k, v in ranksToRows.items()}
-    filesToColumns = {"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7}
-    columnsToFiles = {v: k for k, v in filesToColumns.items()}
-    #print chess notation for move
-    def chessNotation(self):
-        return self.getRankFile(self.startR, self.startC) + self.getRankFile(self.endR, self.endC)
-    def RankAndFile(self, r, c):
-        return self.columnsToFiles[c] + self.rowsToRanks[r]
+
 
 
