@@ -1,4 +1,4 @@
-#squares as objects
+# squares as objects
 class square():
     def __init__(self, coord, piece):
         self.coord = coord
