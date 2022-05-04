@@ -28,49 +28,24 @@ class Pawn(chessPiece):
     def __init__(self, name, color, coord):
         super().__init__(name, color, coord)
 
+class Bishop(chessPiece):
+    def __init__(self, name, color, coord):
+        super().__init__(name, color, coord)
+
+class King(chessPiece):
+    def __init__(self, name, color, coord):
+        super().__init__(name, color, coord)
+
+class Queen(chessPiece):
+    def __init__(self, name, color, coord):
+        super().__init__(name, color, coord)
+
+class Rook(chessPiece):
+    def __init__(self, name, color, coord):
+        super().__init__(name, color, coord)
+
+class Knight(chessPiece):
+    def __init__(self, name, color, coord):
+        super().__init__(name, color, coord)
 
 
-
-class Bishop:
-    def __init__(self, color, coord):
-        self.color = color
-        self.coord = coord
-        self.move = False
-        self.onBoard = True
-
-
-class King:
-    def __init__(self, color, coord):
-        self.color = color
-        self.coord = coord
-        self.move = False
-        self.onBoard = True
-
-
-class Queen:
-    def __init__(self, color, coord):
-         self.color = color
-         self.coord = coord
-         self.move = False
-         self.onBoard = True
-
-
-class Rook:
-    def __init__(self, color, coord):
-          self.color = color
-          self.coord = coord
-          self.move = False
-          self.onBoard = True
-
-
-class Knight:
-    def __init__(self, color, coord):
-          self.color = color
-          self.coord = coord
-
-          self.move = True
-          self.onBoard = True
-
-    def move_to(self, new_coord):
-          self.move = False
-          self.onBoard = True

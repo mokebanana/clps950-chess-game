@@ -15,7 +15,7 @@ class GameState:
 
             (character notations inspired by GitHub user mikolaj-skrzypczak)
         """
-
+        br1 = 
         self.board = [["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
                       ["bP", "bP", "bP", "bP", "bP", "bP", "bP", "bP"],
                       ["--", "--", "--", "--", "--", "--", "--", "--"],
@@ -38,10 +38,6 @@ class GameState:
             :return:
             """
             self.board[move.startRow][move.startCol] = "--"
-
-
-class smartSquares:
-    def __init__(self):
 
 
 """
