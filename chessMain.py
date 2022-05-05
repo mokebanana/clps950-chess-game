@@ -68,13 +68,24 @@ def displayGS(screen, gs):
                                                         squareLength))
 
     # display the pieces
-    board = gs.board
-    for row in range(numSquares):
-        for column in range(numSquares):
-            pieceName = board[row][column]
-            if pieceName != "--":  # not empty square
+    board = getattr(gs, 'board')
+    rowN = 0
+
+    for row in board:
+        colN = 0
+        for piece in row:
+            if piece is not None:
+                pieceName = getattr(piece, 'name')
                 screen.blit(p.transform.scale(imageDict[pieceName], (squareLength, squareLength)),
-                            (column * squareLength, row * squareLength))
+                            (colN * squareLength, rowN * squareLength))
+            colN += 1
+        rowN += 1
+    # for row in range(numSquares):
+    #     for column in range(numSquares):
+    #         pieceName = board[row][column]
+    #         if pieceName != "--":  # not empty square
+    #             screen.blit(p.transform.scale(imageDict[pieceName], (squareLength, squareLength)),
+    #                         (column * squareLength, row * squareLength))
 
 
 

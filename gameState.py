@@ -15,7 +15,7 @@ class GameState:
             empty space: '--'
         """
         import pieces
-        #black pieces starting positions
+        # black pieces starting positions
         br1 = pieces.Rook("bR", True, (0, 0))
         bn1 = pieces.Knight("bN", True, (0, 1))
         bb1 = pieces.Bishop("bB", True, (0, 2))
@@ -33,7 +33,7 @@ class GameState:
         bp7 = pieces.Pawn("bP", True, (1, 6))
         bp8 = pieces.Pawn("bP", True, (1, 7))
 
-        #white pieces starting positions
+        # white pieces starting positions
         wr1 = pieces.Rook("bR", True, (7, 0))
         wn1 = pieces.Knight("bN", True, (7, 1))
         wb1 = pieces.Bishop("bB", True, (7, 2))
@@ -51,21 +51,27 @@ class GameState:
         wp7 = pieces.Pawn("bP", True, (6, 6))
         wp8 = pieces.Pawn("bP", True, (6, 7))
 
-        import squares
+        self.board = [[br1, bn1, bb1, bq, bk, bb2, bn2, br2],
+                      [bp1, bp2, bp3, bp4, bp5, bp6, bp7, bp8],
+                      [None, None, None, None, None, None, None, None],
+                      [None, None, None, None, None, None, None, None],
+                      [None, None, None, None, None, None, None, None],
+                      [None, None, None, None, None, None, None, None],
+                      [wp1, wp2, wp3, wp4, wp5, wp6, wp7, wp8],
+                      [wr1, wn1, wb1, wq, wk, wb2, wn2, wr2]]
 
-
-
-        self.board = [["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
-                      ["bP", "bP", "bP", "bP", "bP", "bP", "bP", "bP"],
-                      ["--", "--", "--", "--", "--", "--", "--", "--"],
-                      ["--", "--", "--", "--", "--", "--", "--", "--"],
-                      ["--", "--", "--", "--", "--", "--", "--", "--"],
-                      ["--", "--", "--", "--", "--", "--", "--", "--"],
-                      ["wP", "wP", "wP", "wP", "wP", "wP", "wP", "wP"],
-                      ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"]]
+        # self.board = [["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
+        #               ["bP", "bP", "bP", "bP", "bP", "bP", "bP", "bP"],
+        #               ["--", "--", "--", "--", "--", "--", "--", "--"],
+        #               ["--", "--", "--", "--", "--", "--", "--", "--"],
+        #               ["--", "--", "--", "--", "--", "--", "--", "--"],
+        #               ["--", "--", "--", "--", "--", "--", "--", "--"],
+        #               ["wP", "wP", "wP", "wP", "wP", "wP", "wP", "wP"],
+        #               ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"]]
 
         self.whiteMoveNext = True  # white moves first
         self.checkMate = False
+
 
         # TODO: initialize pawn promotion, enpassant, castling, etc. conditions here
 
@@ -83,6 +89,8 @@ class GameState:
 Class for moving pieces from start to end square
     responsible for 
 """
+
+
 class Move:
     def __init__(self, board, start, end):
         # store coordinates of start and end points of piece
@@ -96,6 +104,3 @@ class Move:
 
         # target square of piece [second click]
         self.endSquare = board[self.endR][self.endC]
-
-
-
