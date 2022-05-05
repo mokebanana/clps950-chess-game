@@ -20,6 +20,7 @@ def pieceGraphics():
     for piece in pieceTypes:
         imageDict['w' + piece] = p.image.load("pieceImages/w" + piece + ".png")
         imageDict['b' + piece] = p.image.load("pieceImages/b" + piece + ".png")
+    imageDict['border'] = p.image.load("pieceImages/border.png")
 
 
 def main():
@@ -35,13 +36,28 @@ def main():
     # access GameState
     gs = gameState.GameState()
 
+    displayGS(screen, gs)  # displays the board and pieces
+    p.display.flip()
+    fps_clock = p.time.Clock()
+
     running = True
     while running:
-        for e in p.event.get():
+        ev = p.event.get()
+        for e in ev:
+
+            # handle quit event
             if e.type == p.QUIT:
                 running = False
-        displayGS(screen, gs)
-        p.display.flip()
+
+            # handle
+            if e.type == p.MOUSEBUTTONDOWN:
+                print('mouse pressed')
+                mouse_coord = p.mouse.get_pos()
+                print(mouse_coord)
+                board_coord = helpGetSquare(mouse_coord)
+                print(board_coord)
+                highlightSquare(screen, board_coord)
+
 
 
 def displayGS(screen, gs):
@@ -53,42 +69,61 @@ def displayGS(screen, gs):
         if row % 2 == 0:  # even index rows
             for column in range(numSquares):
                 if column % 2 == 0:  # even index cols = white
-                    p.draw.rect(screen, "white", p.Rect(column * squareLength, row * squareLength, squareLength,
-                                                        squareLength))
+                    p.draw.rect(screen, (209, 207, 188), p.Rect(column * squareLength, row * squareLength, squareLength,
+                                                                squareLength))
                 else:
-                    p.draw.rect(screen, "gray", p.Rect(column * squareLength, row * squareLength, squareLength,
-                                                       squareLength))
+                    p.draw.rect(screen, (119, 145, 116), p.Rect(column * squareLength, row * squareLength, squareLength,
+                                                                squareLength))
         else:  # odd index rows
             for column in range(numSquares):
                 if column % 2 == 0:  # even index cols = gray
-                    p.draw.rect(screen, "gray", p.Rect(column * squareLength, row * squareLength, squareLength,
-                                                       squareLength))
+                    p.draw.rect(screen, (119, 145, 116), p.Rect(column * squareLength, row * squareLength, squareLength,
+                                                                squareLength))
                 else:
-                    p.draw.rect(screen, "white", p.Rect(column * squareLength, row * squareLength, squareLength,
-                                                        squareLength))
+                    p.draw.rect(screen, (209, 207, 188), p.Rect(column * squareLength, row * squareLength, squareLength,
+                                                                squareLength))
 
     # display the pieces
     board = getattr(gs, 'board')
-    rowN = 0
-
     for row in board:
-        colN = 0
         for piece in row:
             if piece is not None:
-                pieceName = getattr(piece, 'name')
-                screen.blit(p.transform.scale(imageDict[pieceName], (squareLength, squareLength)),
-                            (colN * squareLength, rowN * squareLength))
-            colN += 1
-        rowN += 1
-    # for row in range(numSquares):
-    #     for column in range(numSquares):
-    #         pieceName = board[row][column]
-    #         if pieceName != "--":  # not empty square
-    #             screen.blit(p.transform.scale(imageDict[pieceName], (squareLength, squareLength)),
-    #                         (column * squareLength, row * squareLength))
+                piece_coord = getattr(piece, 'coord')
+                row_n = piece_coord[0]
+                col_n = piece_coord[1]
+                piece_name = getattr(piece, 'name')
+                helpDrawPiece(screen, row_n, col_n, piece_name)  # helper fun
 
 
+def helpDrawPiece(screen, row, col, piece_name):
+    """
+    Helper function to draw pieces at coordinates (row, col)
+    :param screen: screen to draw on
+    :param piece_name: name of piece type (e.g. "wP", "bB", "bQ", etc.)
+    """
+    screen.blit(p.transform.scale(imageDict[piece_name], (squareLength, squareLength)),
+                (col * squareLength, row * squareLength))
 
 
+def helpGetSquare(mouse_pos):
+    """
+    Helper function to translate clicked mouse position to board square coord
+    :param mouse_pos: in reference to top left of screen (x, y) coordinates
+    :return: (x, y) coordinates in terms of board indices
+    """
+    board_x = mouse_pos[0]//squareLength
+    board_y = mouse_pos[1]//squareLength
+
+    pos = (board_x, board_y)
+
+    return pos
+
+
+def highlightSquare(screen, board_pos):
+    board_x = board_pos[0]
+    board_y = board_pos[1]
+    screen.blit(p.transform.scale(imageDict['border'], (squareLength, squareLength)),
+                (board_x * squareLength, board_y * squareLength))
+    p.display.flip()
 
 main()

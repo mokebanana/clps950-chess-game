@@ -1,6 +1,4 @@
-
-
-class chessPiece(): # parent class
+class chessPiece():  # parent class
     def __init__(self, name, color, coord):
         self.name = name
         self.color = color
@@ -12,29 +10,34 @@ class chessPiece(): # parent class
 
         def moveTo(new_coord):
             self.coord = new_coord
+
+
 # classes for the pieces themselves
 class Pawn(chessPiece):
     def __init__(self, name, color, coord):
         super().__init__(name, color, coord)
 
+
 class Bishop(chessPiece):
     def __init__(self, name, color, coord):
         super().__init__(name, color, coord)
+
 
 class King(chessPiece):
     def __init__(self, name, color, coord):
         super().__init__(name, color, coord)
 
+
 class Queen(chessPiece):
     def __init__(self, name, color, coord):
         super().__init__(name, color, coord)
+
 
 class Rook(chessPiece):
     def __init__(self, name, color, coord):
         super().__init__(name, color, coord)
 
+
 class Knight(chessPiece):
     def __init__(self, name, color, coord):
         super().__init__(name, color, coord)
-
-
