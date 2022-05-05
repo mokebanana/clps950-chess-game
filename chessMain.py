@@ -35,17 +35,19 @@ def main():
     pieceGraphics()
     # access GameState
     gs = gameState.GameState()
+    board = getattr(gs, 'board')
 
     displayGS(screen, gs)  # displays the board and pieces
     p.display.flip()
     fps_clock = p.time.Clock()
     click_count = 0
+    current_piece = None
+    first_click_coord = None
 
     running = True
     while running:
         ev = p.event.get()
         for e in ev:
-            first_click_coord = None
 
             # handle quit event
             if e.type == p.QUIT:
@@ -58,26 +60,47 @@ def main():
 
                 # handle first click
                 if click_count == 1:
-                    print('first click, should highlight possible moves')
                     mouse_coord = p.mouse.get_pos()
                     board_coord = helpGetSquare(mouse_coord)
-                    first_click_coord = board_coord
-                    highlightSquare(screen, board_coord)
-                    # TODO: currently highlights square clicked, need to highlight possible move squares instead
+                    first_click_coord = board_coord  # save where the first click was to check against second click
+                    print('     first click at coord ' + str(first_click_coord))
+
+                    # is there a piece at that board_coord
+                    current_piece = board[board_coord[1]][board_coord[0]]
+                    if current_piece is not None:  # there is a piece at that coord
+                        print('     there is a piece at first click, the piece is ' + getattr(current_piece, 'name'))
+                        piece_can_move = getattr(current_piece, 'canMove')
+                        if piece_can_move:
+                            print('     this piece is able to move')
+
+                            # what are its options to move?
+                            highlightSquare(screen, board_coord)
+                            # TODO: currently highlights square clicked, need to highlight possible move squares instead
+                            pass  # TODO: pass in diff rules for diff pieces
+                        else:
+                            print('     this piece is unable to move')
+                            click_count = 0
+                    else:
+                        click_count = 0  # if there's no piece at the square first clicked, reset click_count
 
                 # handle second click
                 if click_count == 2:
                     mouse_coord = p.mouse.get_pos()
                     board_coord = helpGetSquare(mouse_coord)
                     second_click_coord = board_coord
+                    print('     second click at coord' + str(second_click_coord))
                     if second_click_coord == first_click_coord:
-                        print('changed mind, reset')
-                        # TODO: in this case, just get rid of highlights and don't use up move
+                        print('     same spot! canceled')
+                        click_count = 0
                     else:
-                        print('second click, not in same spot, move to new coord')
-                        # TODO: in this case, move the piece and use up move (toggle gs.whiteMoveNext)
-                    click_count = 0
+                        print('     second click, not in same spot, move to new coord')
+                        # TODO: in this case, move the piece and use up move (toggle gs.whiteMoveNext) (helpDrawPiece)
+                        gs.whiteMoveNext = not gs.whiteMoveNext  # toggle whiteMoveNext
 
+                        helpDrawPiece(screen, board_coord[1], board_coord[0], getattr(current_piece, 'name'))  # todo
+                        p.display.flip()
+
+                    click_count = 0
 
 
 def displayGS(screen, gs):
@@ -131,8 +154,8 @@ def helpGetSquare(mouse_pos):
     :param mouse_pos: in reference to top left of screen (x, y) coordinates
     :return: (x, y) coordinates in terms of board indices
     """
-    board_x = mouse_pos[0]//squareLength
-    board_y = mouse_pos[1]//squareLength
+    board_x = mouse_pos[0] // squareLength
+    board_y = mouse_pos[1] // squareLength
 
     pos = (board_x, board_y)
 
@@ -145,5 +168,6 @@ def highlightSquare(screen, board_pos):
     screen.blit(p.transform.scale(imageDict['border'], (squareLength, squareLength)),
                 (board_x * squareLength, board_y * squareLength))
     p.display.flip()
+
 
 main()

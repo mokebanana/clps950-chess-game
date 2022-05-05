@@ -16,6 +16,7 @@ class chessPiece():  # parent class
 class Pawn(chessPiece):
     def __init__(self, name, color, coord):
         super().__init__(name, color, coord)
+        self.canMove = True
 
 
 class Bishop(chessPiece):
