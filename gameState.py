@@ -78,24 +78,3 @@ class GameState:
             new_r = new_coord[0]
             new_c = new_coord[1]
             self.board[new_r][new_c] = piece
-
-
-"""
-Class for moving pieces from start to end square
-    responsible for 
-"""
-
-
-class Move:
-    def __init__(self, board, start, end):
-        # store coordinates of start and end points of piece
-        self.startR = start[0]
-        self.startC = start[1]
-        self.endR = end[0]
-        self.endC = end[1]
-
-        # origin square of piece [first click]
-        self.startSquare = board[self.startR][self.startC]
-
-        # target square of piece [second click]
-        self.endSquare = board[self.endR][self.endC]
