@@ -39,24 +39,44 @@ def main():
     displayGS(screen, gs)  # displays the board and pieces
     p.display.flip()
     fps_clock = p.time.Clock()
+    click_count = 0
 
     running = True
     while running:
         ev = p.event.get()
         for e in ev:
+            first_click_coord = None
 
             # handle quit event
             if e.type == p.QUIT:
                 running = False
 
-            # handle
-            if e.type == p.MOUSEBUTTONDOWN:
-                print('mouse pressed')
-                mouse_coord = p.mouse.get_pos()
-                print(mouse_coord)
-                board_coord = helpGetSquare(mouse_coord)
-                print(board_coord)
-                highlightSquare(screen, board_coord)
+            # handle mouse click
+            if e.type == p.MOUSEBUTTONDOWN:  # if mouse is clicked
+                click_count += 1  # advance click count
+                print('this is click number: ' + str(click_count))
+
+                # handle first click
+                if click_count == 1:
+                    print('first click, should highlight possible moves')
+                    mouse_coord = p.mouse.get_pos()
+                    board_coord = helpGetSquare(mouse_coord)
+                    first_click_coord = board_coord
+                    highlightSquare(screen, board_coord)
+                    # TODO: currently highlights square clicked, need to highlight possible move squares instead
+
+                # handle second click
+                if click_count == 2:
+                    mouse_coord = p.mouse.get_pos()
+                    board_coord = helpGetSquare(mouse_coord)
+                    second_click_coord = board_coord
+                    if second_click_coord == first_click_coord:
+                        print('changed mind, reset')
+                        # TODO: in this case, just get rid of highlights and don't use up move
+                    else:
+                        print('second click, not in same spot, move to new coord')
+                        # TODO: in this case, move the piece and use up move (toggle gs.whiteMoveNext)
+                    click_count = 0
 
 
 
