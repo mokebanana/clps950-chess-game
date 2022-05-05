@@ -1,3 +1,5 @@
+import pieces
+
 """
 Class for storing current state of game state for the chess game.
     responsible for determining valid and invalid moves.
@@ -13,7 +15,6 @@ class GameState:
             2nd char: piece type ('R', 'N', 'B', 'Q', 'K' or 'p')
             empty space: '--'
         """
-        import pieces
         # black pieces starting positions
         br1 = pieces.Rook("bR", True, (0, 0))
         bn1 = pieces.Knight("bN", True, (0, 1))
@@ -62,19 +63,28 @@ class GameState:
         self.whiteMoveNext = True  # white moves first
         self.checkMate = False
 
-        def movePiece(piece, new_coord):
-            """
-            Function to move piece from its current (old) coord to newCoord
-                updates old square to None
-                updates new square to have piece
-            """
-            # update square at oldCoord: None
-            old_coord = getattr(piece, 'coord')
-            old_r = old_coord[0]
-            old_c = old_coord[1]
-            self.board[old_r][old_c] = None
+    def movePiece(self, curr_piece, new_coord):
+        """
+        Function to move piece from its current (old) coord to newCoord
+            updates old square to None
+            updates new square to have curr_piece
+        """
+        # update square at oldCoord: None
+        old_coord = getattr(curr_piece, 'coord')  # TODO: issue here, won't erase old coord from gs.board
+        print('---- ' + str(old_coord))
+        old_r = old_coord[0]
+        old_c = old_coord[1]
+        self.board[old_r][old_c] = None
 
-            # update square at newCoord: piece
-            new_r = new_coord[0]
-            new_c = new_coord[1]
-            self.board[new_r][new_c] = piece
+        # update square at newCoord: piece
+        new_r = new_coord[1]
+        new_c = new_coord[0]
+        flipped_new_coord = (new_r, new_c)  # TODO: the flip was a temporary fix
+        self.board[new_r][new_c] = curr_piece
+
+        # update curr_piece's own coord
+        if isinstance(curr_piece, pieces.chessPiece):
+            curr_piece.moveTo(flipped_new_coord)
+            print('#### ran moveT0')
+
+        print('**** ran movePiece')

@@ -8,8 +8,11 @@ class chessPiece():  # parent class
         self.canMove = False
         self.onBoard = True
 
-        def moveTo(new_coord):
-            self.coord = new_coord
+    def moveTo(self, new_coord):
+        self.coord = new_coord
+
+    def __repr__(self):
+        return self.name
 
 
 # classes for the pieces themselves

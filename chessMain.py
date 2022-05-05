@@ -95,9 +95,17 @@ def main():
                     else:
                         print('     second click, not in same spot, move to new coord')
                         # TODO: in this case, move the piece and use up move (toggle gs.whiteMoveNext) (helpDrawPiece)
-                        gs.whiteMoveNext = not gs.whiteMoveNext  # toggle whiteMoveNext
+                        gs.whiteMoveNext = not gs.whiteMoveNext  # toggle whiteMoveNext -> not doing anything rn
+                        gs.movePiece(current_piece, second_click_coord)
+                        print(*gs.board)
 
+                        # draw selected piece at new position
                         helpDrawPiece(screen, board_coord[1], board_coord[0], getattr(current_piece, 'name'))  # todo
+
+                        # remove old piece graphics
+                        helpRemovePiece(screen, first_click_coord[1], first_click_coord[0])
+
+                        # update graphics
                         p.display.flip()
 
                     click_count = 0
@@ -168,6 +176,18 @@ def highlightSquare(screen, board_pos):
     screen.blit(p.transform.scale(imageDict['border'], (squareLength, squareLength)),
                 (board_x * squareLength, board_y * squareLength))
     p.display.flip()
+
+
+def helpRemovePiece(screen, board_x, board_y):
+    # I read in pygame you can't remove, you can just draw on top in background color
+
+    xy_sum = board_x + board_y
+    if xy_sum % 2 == 0:
+        p.draw.rect(screen, (209, 207, 188), p.Rect(board_y * squareLength, board_x * squareLength, squareLength,
+                                                    squareLength))
+    else:
+        p.draw.rect(screen, (119, 145, 116), p.Rect(board_y * squareLength, board_x * squareLength, squareLength,
+                                                    squareLength))
 
 
 main()
