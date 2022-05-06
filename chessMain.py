@@ -5,6 +5,7 @@ import numpy as np
 
 # global variables for board dimensions and piece graphics
 import gameState
+import pieces
 
 boardLength = 500
 numSquares = 8
@@ -69,14 +70,16 @@ def main():
                     current_piece = board[board_coord[1]][board_coord[0]]
                     if current_piece is not None:  # there is a piece at that coord
                         print('     there is a piece at first click, the piece is ' + getattr(current_piece, 'name'))
-                        piece_can_move = getattr(current_piece, 'canMove')
-                        if piece_can_move:
+                        color_can_move = gs.whiteMoveNext != getattr(current_piece, 'color')
+                        if color_can_move:
                             print('     this piece is able to move')
 
                             # what are its options to move?
                             highlightSquare(screen, board_coord)
+                            # highlightMove(current_piece, canMoveTo)
                             # TODO: currently highlights square clicked, need to highlight possible move squares instead
                             pass  # TODO: pass in diff rules for diff pieces
+
                         else:
                             print('     this piece is unable to move')
                             click_count = 0
@@ -176,7 +179,8 @@ def highlightSquare(screen, board_pos):
     screen.blit(p.transform.scale(imageDict['border'], (squareLength, squareLength)),
                 (board_x * squareLength, board_y * squareLength))
     p.display.flip()
-
+# def highlightMove(current_piece, canMoveTo)
+    #
 
 def helpRemovePiece(screen, board_x, board_y):
     # I read in pygame you can't remove, you can just draw on top in background color
