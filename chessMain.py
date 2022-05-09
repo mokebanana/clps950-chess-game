@@ -43,6 +43,7 @@ def main():
     fps_clock = p.time.Clock()
     click_count = 0
     current_piece = None
+    current_piece = None
     first_click_coord = None
 
     running = True
@@ -76,7 +77,6 @@ def main():
 
                             # what are its options to move?
                             highlightSquare(screen, board_coord)
-                            # highlightMove(current_piece, canMoveTo)
                             # TODO: currently highlights square clicked, need to highlight possible move squares instead
                             pass  # TODO: pass in diff rules for diff pieces
 
@@ -85,16 +85,20 @@ def main():
                             click_count = 0
                     else:
                         click_count = 0  # if there's no piece at the square first clicked, reset click_count
-
                 # handle second click
                 if click_count == 2:
                     mouse_coord = p.mouse.get_pos()
                     board_coord = helpGetSquare(mouse_coord)
                     second_click_coord = board_coord
                     print('     second click at coord' + str(second_click_coord))
+                    landing_spot = board[board_coord[1]][board_coord[0]]
+                    possible_moves = current_piece.get_moves(board_coord, current_piece)
                     if second_click_coord == first_click_coord:
                         print('     same spot! canceled')
                         click_count = 0
+                    elif second_click_coord not in possible_moves:
+                        print(' move not possible')
+                        click_count == 0
                     else:
                         print('     second click, not in same spot, move to new coord')
                         # TODO: in this case, move the piece and use up move (toggle gs.whiteMoveNext) (helpDrawPiece)
@@ -179,8 +183,7 @@ def highlightSquare(screen, board_pos):
     screen.blit(p.transform.scale(imageDict['border'], (squareLength, squareLength)),
                 (board_x * squareLength, board_y * squareLength))
     p.display.flip()
-# def highlightMove(current_piece, canMoveTo)
-    #
+
 
 def helpRemovePiece(screen, board_x, board_y):
     # I read in pygame you can't remove, you can just draw on top in background color
@@ -192,6 +195,5 @@ def helpRemovePiece(screen, board_x, board_y):
     else:
         p.draw.rect(screen, (119, 145, 116), p.Rect(board_y * squareLength, board_x * squareLength, squareLength,
                                                     squareLength))
-
 
 main()
