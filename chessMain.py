@@ -74,12 +74,12 @@ def main():
                         color_can_move = gs.whiteMoveNext != getattr(current_piece, 'color')
                         if color_can_move:
                             print('     this piece is able to move')
-
                             # what are its options to move?
                             highlightSquare(screen, board_coord)
                             # TODO: currently highlights square clicked, need to highlight possible move squares instead
                             pass  # TODO: pass in diff rules for diff pieces
-
+                            possible_moves = current_piece.get_moves(board_coord, board, first_click_coord)
+                            print(possible_moves)
                         else:
                             print('     this piece is unable to move')
                             click_count = 0
@@ -92,12 +92,13 @@ def main():
                     second_click_coord = board_coord
                     print('     second click at coord' + str(second_click_coord))
                     landing_spot = board[board_coord[1]][board_coord[0]]
-                    possible_moves = current_piece.get_moves(board_coord, current_piece)
+                    possible_moves = current_piece.get_moves(board_coord, board, first_click_coord)
                     if second_click_coord == first_click_coord:
                         print('     same spot! canceled')
                         click_count = 0
                     elif second_click_coord not in possible_moves:
                         print(' move not possible')
+                        print(possible_moves)
                         click_count == 0
                     else:
                         print('     second click, not in same spot, move to new coord')
