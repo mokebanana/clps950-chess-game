@@ -22,6 +22,7 @@ def pieceGraphics():
         imageDict['w' + piece] = p.image.load("pieceImages/w" + piece + ".png")
         imageDict['b' + piece] = p.image.load("pieceImages/b" + piece + ".png")
     imageDict['border'] = p.image.load("pieceImages/border.png")
+    imageDict['redborder'] = p.image.load("pieceImages/redborder.png")
 
 
 def main():
@@ -73,25 +74,31 @@ def main():
                         print('     there is a piece at first click, the piece is ' + getattr(current_piece, 'name'))
                         color_can_move = gs.whiteMoveNext != getattr(current_piece, 'color')
                         if color_can_move:
-                            print('     this piece is able to move')
+                            print('     a piece of this color is able to move')
                             # what are its options to move?
-                            highlightSquare(screen, board_coord)
+                            highlightRed(screen, board_coord)
                             # TODO: currently highlights square clicked, need to highlight possible move squares instead
-                            pass  # TODO: pass in diff rules for diff pieces
-                            possible_moves = current_piece.get_moves(board_coord, board, first_click_coord)
-                            print(possible_moves)
+                            # TODO: pass in diff rules for diff pieces
+                            possible_moves = current_piece.get_moves(board_coord, board, first_click_coord)  # TODO: <- why are both board_coord AND first_click_coord passed in if they are the same thing?
+                            for possible_move in possible_moves:
+                                highlightGreen(screen, possible_move)
+                                print('highlighted square at ' + str(possible_move))
+                            p.display.flip()
+                            print('     these are the possible moves: ' + str(possible_moves))
                         else:
                             print('     this piece is unable to move')
                             click_count = 0
                     else:
                         click_count = 0  # if there's no piece at the square first clicked, reset click_count
+                        print('     clicked on an empty square, reset')
+
                 # handle second click
                 if click_count == 2:
                     mouse_coord = p.mouse.get_pos()
                     board_coord = helpGetSquare(mouse_coord)
                     second_click_coord = board_coord
                     print('     second click at coord' + str(second_click_coord))
-                    landing_spot = board[board_coord[1]][board_coord[0]]
+                    landing_spot = board[board_coord[1]][board_coord[0]]  # TODO: why is this needed? is it to check if empty?
                     possible_moves = current_piece.get_moves(board_coord, board, first_click_coord)
                     if second_click_coord == first_click_coord:
                         print('     same spot! canceled')
@@ -178,10 +185,17 @@ def helpGetSquare(mouse_pos):
     return pos
 
 
-def highlightSquare(screen, board_pos):
+def highlightGreen(screen, board_pos):
     board_x = board_pos[0]
     board_y = board_pos[1]
     screen.blit(p.transform.scale(imageDict['border'], (squareLength, squareLength)),
+                (board_x * squareLength, board_y * squareLength))
+    # p.display.flip()
+
+def highlightRed(screen, board_pos):
+    board_x = board_pos[0]
+    board_y = board_pos[1]
+    screen.blit(p.transform.scale(imageDict['redborder'], (squareLength, squareLength)),
                 (board_x * squareLength, board_y * squareLength))
     p.display.flip()
 
