@@ -94,7 +94,7 @@ class Bishop(chessPiece):
                     if considering_coord == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
                         still_looking = False
                     elif considering_coord == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, 1)))))
+                        possible_moves.append(considering_coord)
                         break
                 if self.color is True:
                     if considering_coord == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
@@ -102,9 +102,9 @@ class Bishop(chessPiece):
                     elif considering_coord == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
                         possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, 1)))))
                         still_looking = False
-            if considering_coord is None:
+            else:
                 possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, 1)))))
-        return possible_moves
+                considering_coord = (tuple(map(sum, zip(considering_coord, (1, 1)))))
         considering_coord2 = (tuple(map(sum, zip(first_click_coord, (1, -1)))))  # TODO: why is this code unreachable?
         while (still_looking):
             if board_coord[board[0] + 1][board[1] - 1] is not None:
@@ -139,8 +139,6 @@ class Bishop(chessPiece):
                         still_looking = False
             if considering_coord3 == None:
                 possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, -1)))))
-        return possible_moves
-
         considering_coord4 = (tuple(map(sum, zip(first_click_coord, (-1, 1)))))
         while (still_looking):
             if board_coord[board[0] - 1][board[1] + 1] is not None:
@@ -158,7 +156,7 @@ class Bishop(chessPiece):
                         still_looking = False
             if considering_coord2 == None:
                 possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, 1)))))
-
+        return possible_moves
 
 class King(chessPiece):
     def __init__(self, name, color, coord):
