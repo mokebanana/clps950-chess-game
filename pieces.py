@@ -31,12 +31,12 @@ class Pawn(chessPiece):
         # black to move
         if self.color is True:
             possible_moves = []
-            if board[board_coord[0] + 1, board_coord[1] + 1] is not None:
+            if board_coord[board[0] + 1][board[1] + 1] is not None:
                 if board_coord[board[0] + 1][board[1] + 1] == ("wR" or "wP" or "wB" or "wN" or "wQ"):
                     possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, 1)))))
                 else:
                     pass
-            elif board[board_coord[0] + 1, board_coord[1] - 1] is not None:
+            elif board_coord[board[0] + 1][board[1] - 1] is not None:
                 if board_coord[board[0] + 1][board[1] - 1] == ("wR" or "wP" or "wB" or "wN" or "wQ"):
                     possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, -1)))))
                 else:
