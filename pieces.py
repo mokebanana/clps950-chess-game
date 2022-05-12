@@ -50,7 +50,6 @@ class Pawn(chessPiece):
                 possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, -1)))))
             else:
                 pass
-            return possible_moves
         # white to move
         if self.color is False:
             possible_moves = []
@@ -162,76 +161,8 @@ class Bishop(chessPiece):
 class King(chessPiece):
     def __init__(self, name, color, coord):
         super().__init__(name, color, coord)
-
-    def get_moves(self, board, board_coord, first_click_coord):
-        possible_moves = []
-        if self.color is True:
-            if board_coord[board[0] + 1][board[1] + 0] is None or board_coord[board[0] + 1][board[1] + 0] == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, 0)))))
-            else:
-                pass
-            if board_coord[board[0] - 1][board[1] + 0] is None or board_coord[board[0] - 1][board[1] + 0] == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, 0)))))
-            else:
-                pass
-            if board_coord[board[0] + 1][board[1] + 0] is None or board_coord[board[0] + 1][board[1] + 0] == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, 0)))))
-            else:
-                pass
-            if board_coord[board[0] - 1][board[1] - 0] is None or board_coord[board[0] - 1][board[1] - 0] == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, 0)))))
-            else:
-                pass
-            if board_coord[board[0] + 0][board[1] + 1] is None or board_coord[board[0] + 0][board[1] + 1] == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, 1)))))
-            else:
-                pass
-            if board_coord[board[0] + 0][board[1] + 1] is None or board_coord[board[0] + 0][board[1] + 1] == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, 1)))))
-            else:
-                pass
-            if board_coord[board[0] + 0][board[1] - 1] is None or board_coord[board[0] + 0][board[1] - 1] == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, -1)))))
-            else:
-                pass
-            if board_coord[board[0] + 0][board[1] - 1] is None or board_coord[board[0] + 0][board[1] - 1] == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, -1)))))
-            else:
-                pass
-        if self.color is False:
-            if board_coord[board[0] + 1][board[1] + 0] is None or board_coord[board[0] + 1][board[1] + 0] == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, 0)))))
-            else:
-                pass
-            if board_coord[board[0] - 1][board[1] + 0] is None or board_coord[board[0] - 1][board[1] + 0] == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, 0)))))
-            else:
-                pass
-            if board_coord[board[0] + 1][board[1] + 0] is None or board_coord[board[0] + 1][board[1] + 0] == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, 0)))))
-            else:
-                pass
-            if board_coord[board[0] - 1][board[1] + 0] is None or board_coord[board[0] - 1][board[1] + 0] == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, 0)))))
-            else:
-                pass
-            if board_coord[board[0] + 0][board[1] + 1] is None or board_coord[board[0] + 0][board[1] + 1] == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, 1)))))
-            else:
-                pass
-            if board_coord[board[0] + 0][board[1] + 1] is None or board_coord[board[0] + 0][board[1] + 1] == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, 1)))))
-            else:
-                pass
-            if board_coord[board[0] + 0][board[1] - 1] is None or board_coord[board[0] + 0][board[1] - 1] == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, -1)))))
-            else:
-                pass
-            if board_coord[board[0] + 0][board[1] - 1] is None or board_coord[board[0] + 0][board[1] - 1] == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, -1)))))
-            else:
-                pass
-        return possible_moves
+        # self.canMoveTo = coord+(1,1) or coord+(1,-1) or coord+(-1,-1);
+        #   or coord+(-1,1) or coord+(1,0) or coord+(-1,0) or coord+(0,-1) or coord+(0,1)
 
 
 class Queen(chessPiece):
@@ -243,78 +174,21 @@ class Rook(chessPiece):
     def __init__(self, name, color, coord):
         super().__init__(name, color, coord)
 
-    def get_moves(self, board, board_coord, first_click_coord):
+    def get_moves(self, board, current_piece):
         possible_moves = []
-        still_looking = True
-        considering_coord = (tuple(map(sum, zip(first_click_coord, (0, 1)))))
-        while still_looking:
-            if board_coord[board[0] + 0][board[1] + 1] is not None:
-                if self.color is False:
+        if self.color == False:
+            still_looking = True
+            considering_coord = (self.coord + (1, 1))
+            # diagonally up and to the right
+            while (still_looking):
+                if considering_coord is not None:
                     if considering_coord == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
                         still_looking = False
-                    elif considering_coord == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                        possible_moves.append(considering_coord)
+                    if ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
+                        possible_moves.append(self.coord + (1, 1))
                         break
-                if self.color is True:
-                    if considering_coord == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                        still_looking = False
-                    elif considering_coord == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, 1)))))
-                        still_looking = False
-            else:
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, 1)))))
-                considering_coord = (tuple(map(sum, zip(considering_coord, (0, 1)))))
-        considering_coord2 = (tuple(map(sum, zip(first_click_coord, (0, -1)))))  # TODO: why is this code unreachable?
-        while (still_looking):
-            if board_coord[board[0] + 0][board[1] - 1] is not None:
-                if self.color is False:
-                    if considering_coord2 == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                        still_looking = False
-                    elif considering_coord2 == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, -1)))))
-                        break
-                if self.color is True:
-                    if considering_coord2 == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                        still_looking = False
-                    elif considering_coord2 == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, -1)))))
-                        still_looking = False
-            if considering_coord2 == None:
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, -1)))))
-        considering_coord3 = (tuple(map(sum, zip(first_click_coord, (1, 0)))))
-        while (still_looking):
-            if board_coord[board[0] + 1][board[1] + 0] is not None:
-                if self.color is False:
-                    if considering_coord3 == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                        still_looking = False
-                    elif considering_coord3 == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, 0)))))
-                        break
-                if self.color is True:
-                    if considering_coord3 == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                        still_looking = False
-                    elif considering_coord3 == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, 0)))))
-                        still_looking = False
-            if considering_coord3 == None:
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, 0)))))
-        considering_coord4 = (tuple(map(sum, zip(first_click_coord, (-1, 0)))))
-        while (still_looking):
-            if board_coord[board[0] - 1][board[1] + 0] is not None:
-                if self.color is False:
-                    if considering_coord4 == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                        still_looking = False
-                    elif considering_coord4 == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, 0)))))
-                        break
-                if self.color is True:
-                    if considering_coord4 == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                        still_looking = False
-                    elif considering_coord4 == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, 0)))))
-                        still_looking = False
-            if considering_coord2 == None:
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, 0)))))
+                if considering_coord == None:
+                    possible_moves.append(self.coord + (1, 1))
         return possible_moves
 
 
@@ -322,75 +196,5 @@ class Knight(chessPiece):
     def __init__(self, name, color, coord):
         super().__init__(name, color, coord)
         self.canMove = True
-
-    def get_moves(self, board, board_coord, first_click_coord):
-        possible_moves = []
-        if self.color is True:
-            if board_coord[board[0] + 1][board[1] + 2] is None or board_coord[board[0] + 1][board[1] + 2] == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, 2)))))
-            else:
-                pass
-            if board_coord[board[0] - 1][board[1] + 2] is None or board_coord[board[0] - 1][board[1] + 2] == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, 2)))))
-            else:
-                pass
-            if board_coord[board[0] + 1][board[1] - 2] is None or board_coord[board[0] + 1][board[1] - 2] == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, -2)))))
-            else:
-                pass
-            if board_coord[board[0] - 1][board[1] - 2] is None or board_coord[board[0] - 1][board[1] - 2] == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, -2)))))
-            else:
-                pass
-            if board_coord[board[0] + 2][board[1] + 1] is None or board_coord[board[0] + 2][board[1] + 1] == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (2, 1)))))
-            else:
-                pass
-            if board_coord[board[0] - 2][board[1] + 1] is None or board_coord[board[0] -2][board[1] + 1] == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (-2, 1)))))
-            else:
-                pass
-            if board_coord[board[0] + 2][board[1] - 1] is None or board_coord[board[0] + 2][board[1] - 1] == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (2, -1)))))
-            else:
-                pass
-            if board_coord[board[0] - 2][board[1] - 1] is None or board_coord[board[0] - 2][board[1] - 1] == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (-2, -1)))))
-            else:
-                pass
-        if self.color is False:
-            if board_coord[board[0] + 1][board[1] + 2] is None or board_coord[board[0] + 1][board[1] + 2] == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, 2)))))
-            else:
-                pass
-            if board_coord[board[0] - 1][board[1] + 2] is None or board_coord[board[0] - 1][board[1] + 2] == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, 2)))))
-            else:
-                pass
-            if board_coord[board[0] + 1][board[1] - 2] is None or board_coord[board[0] + 1][board[1] - 2] == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, -2)))))
-            else:
-                pass
-            if board_coord[board[0] - 1][board[1] - 2] is None or board_coord[board[0] - 1][board[1] - 2] == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, -2)))))
-            else:
-                pass
-            if board_coord[board[0] + 2][board[1] + 1] is None or board_coord[board[0] + 2][board[1] + 1] == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (2, 1)))))
-            else:
-                pass
-            if board_coord[board[0] - 2][board[1] + 1] is None or board_coord[board[0] - 2][board[1] + 1] == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (-2, 1)))))
-            else:
-                pass
-            if board_coord[board[0] + 2][board[1] - 1] is None or board_coord[board[0] + 2][board[1] - 1] == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (2, -1)))))
-            else:
-                pass
-            if board_coord[board[0] - 2][board[1] - 1] is None or board_coord[board[0] - 2][board[1] - 1] == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (-2, -1)))))
-            else:
-                pass
-        return possible_moves
-
-
+        # self.canMoveTo = coord+(1,2) or coord+(1,-2) or coord+(-1,-2);
+        #   or coord+(2,1) or coord+(2,-1) or coord+(-2,1) or coord+(-2,-1) or coord+(-1,2)
