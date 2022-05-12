@@ -1,4 +1,12 @@
+"""
+File with
+"""
+
+
 class chessPiece():  # parent class
+    """
+    Parent class for all chess piece objects
+    """
     def __init__(self, name, color, coord):
         self.name = name
         self.color = color
@@ -15,22 +23,23 @@ class chessPiece():  # parent class
         return self.name
 
 
-# classes for the pieces themselves
 class Pawn(chessPiece):
+    """
+    Class for pawn objects
+    """
     def __init__(self, name, color, coord):
         super().__init__(name, color, coord)
 
     def get_moves(self, board_coord, board, first_click_coord):
         """
         Function to return all possible moves of the piece at the location of the first click
+        :param board_coord: coordinate clicked
         :param board: current state of the board
-        :param board: the
-        :param first_click_coord:
-        :return:
+        :param first_click_coord: coordinate clicked
+        :return: a list of possible move coordinates (tuples)
         """
         # black to move
         if self.color is True:
-            print('     reached get_moves for black!')
             possible_moves = []
             if board[board_coord[0] + 1][board_coord[1] + 1] is not None:
                 if board[board_coord[0] + 1][board_coord[1] + 1] == ("wR" or "wP" or "wB" or "wN" or "wQ"):
@@ -52,6 +61,7 @@ class Pawn(chessPiece):
             else:
                 pass
             return possible_moves
+
         # white to move
         if self.color is False:
             possible_moves = []
@@ -107,8 +117,8 @@ class Bishop(chessPiece):
             else:
                 possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, 1)))))
                 considering_coord = (tuple(map(sum, zip(considering_coord, (1, 1)))))
-        considering_coord2 = (tuple(map(sum, zip(first_click_coord, (1, -1)))))  # TODO: why is this code unreachable?
-        while (still_looking):
+        considering_coord2 = (tuple(map(sum, zip(first_click_coord, (1, -1)))))
+        while still_looking:
             if board[board_coord[0] + 1][board_coord[1] - 1] is not None:
                 if self.color is False:
                     if considering_coord2 == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
@@ -122,10 +132,10 @@ class Bishop(chessPiece):
                     elif considering_coord2 == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
                         possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, -1)))))
                         still_looking = False
-            if considering_coord2 == None:
+            if considering_coord2 is None:
                 possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, -1)))))
         considering_coord3 = (tuple(map(sum, zip(first_click_coord, (-1, -1)))))
-        while (still_looking):
+        while still_looking:
             if board[board_coord[0] - 1][board_coord[1] - 1] is not None:
                 if self.color is False:
                     if considering_coord3 == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
@@ -139,10 +149,10 @@ class Bishop(chessPiece):
                     elif considering_coord3 == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
                         possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, -1)))))
                         still_looking = False
-            if considering_coord3 == None:
+            if considering_coord3 is None:
                 possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, -1)))))
         considering_coord4 = (tuple(map(sum, zip(first_click_coord, (-1, 1)))))
-        while (still_looking):
+        while still_looking:
             if board[board_coord[0] - 1][board_coord[1] + 1] is not None:
                 if self.color is False:
                     if considering_coord4 == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
@@ -156,9 +166,10 @@ class Bishop(chessPiece):
                     elif considering_coord4 == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
                         possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, 1)))))
                         still_looking = False
-            if considering_coord2 == None:
+            if considering_coord2 is None:
                 possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, 1)))))
         return possible_moves
+
 
 class King(chessPiece):
     def __init__(self, name, color, coord):

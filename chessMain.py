@@ -44,7 +44,6 @@ def main():
     fps_clock = p.time.Clock()
     click_count = 0
     current_piece = None
-    current_piece = None
     first_click_coord = None
     possible_moves = None
 
@@ -80,7 +79,7 @@ def main():
                             highlightRed(screen, board_coord)
                             # TODO: pass in diff rules for diff pieces
                             possible_moves = current_piece.get_moves(board_coord, board,
-                                                                     first_click_coord)  # TODO: <- why are both board_coord AND first_click_coord passed in if they are the same thing?
+                                                                     first_click_coord)
                             if possible_moves is not None:
                                 for possible_move in possible_moves:
                                     highlightGreen(screen, possible_move)
@@ -109,7 +108,7 @@ def main():
                     elif second_click_coord not in possible_moves:
                         print('     move to ' + str(second_click_coord) + ' not possible')
                         print('     instead, here are the possible moves: ' + str(possible_moves))
-                        click_count == 0
+                        click_count = 0
                     else:
                         print('     second click, not in same spot, move to new coord')
                         # TODO: in this case, move the piece and use up move (toggle gs.whiteMoveNext) (helpDrawPiece)
@@ -189,14 +188,25 @@ def helpGetSquare(mouse_pos):
 
 
 def highlightGreen(screen, board_pos):
+    """
+    Helper fun to
+    :param screen:
+    :param board_pos:
+    :return:
+    """
     board_x = board_pos[0]
     board_y = board_pos[1]
     screen.blit(p.transform.scale(imageDict['border'], (squareLength, squareLength)),
                 (board_x * squareLength, board_y * squareLength))
-    # p.display.flip()
 
 
 def highlightRed(screen, board_pos):
+    """
+
+    :param screen:
+    :param board_pos:
+    :return:
+    """
     board_x = board_pos[0]
     board_y = board_pos[1]
     screen.blit(p.transform.scale(imageDict['redborder'], (squareLength, squareLength)),
@@ -205,6 +215,13 @@ def highlightRed(screen, board_pos):
 
 
 def helpRemovePiece(screen, board_x, board_y):
+    """
+
+    :param screen:
+    :param board_x:
+    :param board_y:
+    :return:
+    """
     # I read in pygame you can't remove, you can just draw on top in background color
 
     xy_sum = board_x + board_y
