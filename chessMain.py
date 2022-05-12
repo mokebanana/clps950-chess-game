@@ -78,9 +78,9 @@ def main():
                             print('     a piece of this color is able to move')
                             # what are its options to move?
                             highlightRed(screen, board_coord)
-                            # TODO: currently highlights square clicked, need to highlight possible move squares instead
                             # TODO: pass in diff rules for diff pieces
-                            possible_moves = current_piece.get_moves(board_coord, board, first_click_coord)  # TODO: <- why are both board_coord AND first_click_coord passed in if they are the same thing?
+                            possible_moves = current_piece.get_moves(board_coord, board,
+                                                                     first_click_coord)  # TODO: <- why are both board_coord AND first_click_coord passed in if they are the same thing?
                             if possible_moves is not None:
                                 for possible_move in possible_moves:
                                     highlightGreen(screen, possible_move)
@@ -100,8 +100,9 @@ def main():
                     board_coord = helpGetSquare(mouse_coord)
                     second_click_coord = board_coord
                     print('     second click at coord' + str(second_click_coord))
-                    landing_spot = board[board_coord[1]][board_coord[0]]  # TODO: why is this needed? is it to check if empty?
-                    
+                    landing_spot = board[board_coord[1]][
+                        board_coord[0]]  # TODO: why is this needed? is it to check if empty?
+
                     if second_click_coord == first_click_coord:
                         print('     same spot! canceled')
                         click_count = 0
@@ -194,6 +195,7 @@ def highlightGreen(screen, board_pos):
                 (board_x * squareLength, board_y * squareLength))
     # p.display.flip()
 
+
 def highlightRed(screen, board_pos):
     board_x = board_pos[0]
     board_y = board_pos[1]
@@ -212,5 +214,6 @@ def helpRemovePiece(screen, board_x, board_y):
     else:
         p.draw.rect(screen, (119, 145, 116), p.Rect(board_y * squareLength, board_x * squareLength, squareLength,
                                                     squareLength))
+
 
 main()
