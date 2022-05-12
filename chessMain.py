@@ -80,9 +80,10 @@ def main():
                             # TODO: currently highlights square clicked, need to highlight possible move squares instead
                             # TODO: pass in diff rules for diff pieces
                             possible_moves = current_piece.get_moves(board_coord, board, first_click_coord)  # TODO: <- why are both board_coord AND first_click_coord passed in if they are the same thing?
-                            for possible_move in possible_moves:
-                                highlightGreen(screen, possible_move)
-                                print('highlighted square at ' + str(possible_move))
+                            if possible_moves is not None:
+                                for possible_move in possible_moves:
+                                    highlightGreen(screen, possible_move)
+                                    print('highlighted square at ' + str(possible_move))
                             p.display.flip()
                             print('     these are the possible moves: ' + str(possible_moves))
                         else:
