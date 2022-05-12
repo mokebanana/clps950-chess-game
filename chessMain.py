@@ -46,6 +46,7 @@ def main():
     current_piece = None
     current_piece = None
     first_click_coord = None
+    possible_moves = None
 
     running = True
     while running:
@@ -59,7 +60,7 @@ def main():
             # handle mouse click
             if e.type == p.MOUSEBUTTONDOWN:  # if mouse is clicked
                 click_count += 1  # advance click count
-                print('this is click number: ' + str(click_count))
+                print('click ' + str(click_count))
 
                 # handle first click
                 if click_count == 1:
@@ -83,7 +84,7 @@ def main():
                             if possible_moves is not None:
                                 for possible_move in possible_moves:
                                     highlightGreen(screen, possible_move)
-                                    print('highlighted square at ' + str(possible_move))
+                                    print('     highlighted square at ' + str(possible_move))
                             p.display.flip()
                             print('     these are the possible moves: ' + str(possible_moves))
                         else:
@@ -100,13 +101,13 @@ def main():
                     second_click_coord = board_coord
                     print('     second click at coord' + str(second_click_coord))
                     landing_spot = board[board_coord[1]][board_coord[0]]  # TODO: why is this needed? is it to check if empty?
-                    possible_moves = current_piece.get_moves(board_coord, board, first_click_coord)
+                    
                     if second_click_coord == first_click_coord:
                         print('     same spot! canceled')
                         click_count = 0
                     elif second_click_coord not in possible_moves:
-                        print(' move not possible')
-                        print(possible_moves)
+                        print('     move to ' + str(second_click_coord) + ' not possible')
+                        print('     instead, here are the possible moves: ' + str(possible_moves))
                         click_count == 0
                     else:
                         print('     second click, not in same spot, move to new coord')
