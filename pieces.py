@@ -50,6 +50,7 @@ class Pawn(chessPiece):
                 possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, -1)))))
             else:
                 pass
+            return possible_moves
         # white to move
         if self.color is False:
             possible_moves = []
