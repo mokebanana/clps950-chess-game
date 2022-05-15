@@ -78,7 +78,7 @@ class Pawn(chessPiece):
             # at start position, able to move forward two spaces when BOTH spaces ahead are empty
             if board_coord[0] == 1:
                 if board[board_coord[0] + 2][board_coord[1]] is None and board[board_coord[0] + 1][board_coord[1] +
-                                                                                                       0] is None:
+                                                                                                   0] is None:
                     possible_moves.append(sumTuple(first_click_coord, (2, 0)))
 
             # in general, can move forward one space when space ahead is empty
@@ -127,7 +127,8 @@ class Pawn(chessPiece):
 
             # at start position, able to move forward two spaces when BOTH spaces ahead are empty
             if board_coord[0] == 6:
-                if board[board_coord[0]-2][board_coord[1]] is None and board[board_coord[0]-1][board_coord[1]] is None:
+                if board[board_coord[0] - 2][board_coord[1]] is None and board[board_coord[0] - 1][
+                    board_coord[1]] is None:
                     possible_moves.append(sumTuple(first_click_coord, (-2, 0)))
 
             # in general, can move forward one space when space ahead is empty
@@ -144,90 +145,51 @@ class Bishop(chessPiece):
 
     def get_moves(self, board_coord, board, first_click_coord):
         possible_moves = []
-        still_looking = True
-        considering_coord = (tuple(map(sum, zip(first_click_coord, (1, 1)))))
-        # diagonally up and to the right
-        while still_looking:
-            if considering_coord[0] > 7 or considering_coord[1] > 7 or considering_coord[0] < 0 or considering_coord[1] < 0:
-                break
-            if board[board_coord[0] + 1][board_coord[1] + 1] is not None:
-                if self.color is False:
-                    if considering_coord == self.color is False:
-                        still_looking = False
-                    elif considering_coord == self.color is True:
-                        possible_moves.append(considering_coord)
-                        break
-                if self.color is True:
-                    if considering_coord == self.color is True:
-                        still_looking = False
-                    elif considering_coord == self.color is False:
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, 1)))))
-                        still_looking = False
-            else:
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, 1)))))
-                considering_coord = (tuple(map(sum, zip(considering_coord, (1, 1)))))
-        considering_coord2 = (tuple(map(sum, zip(first_click_coord, (1, -1)))))  # TODO: why is this code unreachable?
-        while still_looking:
-            if considering_coord2[0] > 7 or considering_coord2[1] > 7 or considering_coord2[0] < 0 or considering_coord2[1] < 0:
-                break
-            if board[board_coord[0] + 1][board_coord[1] - 1] is not None:
-                if self.color is False:
-                    if considering_coord2 == self.color is False:
-                        still_looking = False
-                    elif considering_coord2 == self.color is True:
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, -1)))))
-                        break
-                if self.color is True:
-                    if considering_coord2 == self.color is True:
-                        still_looking = False
-                    elif considering_coord2 == self.color is False:
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, -1)))))
-                        still_looking = False
-            else:
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, -1)))))
-                considering_coord2 = (tuple(map(sum, zip(considering_coord, (1, -1)))))
-        considering_coord3 = (tuple(map(sum, zip(first_click_coord, (-1, -1)))))
-        while still_looking:
-            if considering_coord3[0] > 7 or considering_coord3[1] > 7 or considering_coord3[0] < 0 or considering_coord3[1] < 0:
-                break
-            if board[board_coord[0] - 1][board_coord[1] - 1] is not None:
-                if self.color is False:
-                    if considering_coord3 == self.color is False:
-                        still_looking = False
-                    elif considering_coord3 == self.color is True:
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, -1)))))
-                        break
-                if self.color is True:
-                    if considering_coord3 == self.color is True:
-                        still_looking = False
-                    elif considering_coord3 == self.color is False:
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, -1)))))
-                        still_looking = False
-            else:
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, -1)))))
-                considering_coord3 = (tuple(map(sum, zip(considering_coord, (-1, -1)))))
-        considering_coord4 = (tuple(map(sum, zip(first_click_coord, (-1, 1)))))
-        while still_looking:
-            if considering_coord4[0] > 7 or considering_coord4[1] > 7 or considering_coord4[0] < 0 or considering_coord4[1] < 0:
-                break
-            if board[board_coord[0] - 1][board_coord[1] + 1] is not None:
-                if self.color is False:
-                    if considering_coord4 == self.color is False:
-                        still_looking = False
-                    elif considering_coord4 == self.color is True:
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, 1)))))
-                        break
-                if self.color is True:
-                    if considering_coord4 == self.color is True:
-                        still_looking = False
-                    elif considering_coord4 == self.color is False:
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, 1)))))
-                        still_looking = False
-            else:
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, 1)))))
-                considering_coord = (tuple(map(sum, zip(considering_coord, (-1, 1)))))
-        return possible_moves
+        current_piece = board[board_coord[0]][board_coord[1]]
 
+        def helpCheckBishop(tup):
+            considering_coord = sumTuple(first_click_coord, tup)
+            while True:
+                # if out of bounds of the board
+                if not withinBoardBounds(considering_coord):
+                    break
+
+                # now that we know the target square is not out of bounds...
+                target_square = board[considering_coord[0]][considering_coord[1]]
+
+                # considering a square with a piece
+                if isinstance(target_square, chessPiece):
+                    if not current_piece.color:  # current piece is white
+                        if not target_square.color:  # target square has a white piece too
+                            break
+                        if target_square.color:  # target square has a black piece
+                            possible_moves.append(considering_coord)
+                            break
+
+                    if current_piece.color:  # current piece is black
+                        if target_square.color:  # target square has a black piece too
+                            break
+                        if not target_square.color:  # target square has a white piece
+                            possible_moves.append(considering_coord)
+                            break
+                # considering an empty square
+                else:
+                    possible_moves.append(considering_coord)
+                    considering_coord = sumTuple(considering_coord, tup)
+
+        # down right
+        helpCheckBishop((1, 1))
+
+        # down left
+        helpCheckBishop((1, -1))
+
+        # up right
+        helpCheckBishop((-1, 1))
+
+        # up left
+        helpCheckBishop((-1, -1))
+
+        return possible_moves
 
 class King(chessPiece):
     def __init__(self, name, color, coord):
@@ -476,18 +438,10 @@ class Knight(chessPiece):
 
 
 def canGoBlack(target_square):
-    if target_square is None:
-        print('     * ' + str(target_square) + ' is empty')
-    if isinstance(target_square, chessPiece) and not target_square.color:
-        print('     * ' + str(target_square) + ' is an opponent piece')
     return target_square is None or (isinstance(target_square, chessPiece) and not target_square.color)
 
 
 def canGoWhite(target_square):
-    if target_square is None:
-        print('     * ' + str(target_square) + ' is empty')
-    if isinstance(target_square, chessPiece) and target_square.color:
-        print('     * ' + str(target_square) + ' is an opponent piece')
     return target_square is None or (isinstance(target_square, chessPiece) and target_square.color)
 
 
@@ -496,8 +450,4 @@ def sumTuple(t1, t2):
 
 
 def withinBoardBounds(want_to_go_to):
-    if want_to_go_to[0] > 7 or want_to_go_to[1] > 7:
-        print('     * out of bounds')
-
-    return want_to_go_to[0] <= 7 and want_to_go_to[1] <= 7
-
+    return 7 >= want_to_go_to[0] >= 0 and 7 >= want_to_go_to[1] >= 0
