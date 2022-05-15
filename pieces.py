@@ -302,6 +302,51 @@ class Queen(chessPiece):
     def __init__(self, name, color, coord):
         super().__init__(name, color, coord)
 
+    def get_moves(self, board_coord, board, first_click_coord):
+        possible_moves = []
+        current_piece = board[board_coord[0]][board_coord[1]]
+
+        def helpCheckQueen(tup):
+            considering_coord = sumTuple(first_click_coord, tup)
+            while True:
+                # if out of bounds of the board
+                if not withinBoardBounds(considering_coord):
+                    break
+
+                # now that we know the target square is not out of bounds...
+                target_square = board[considering_coord[0]][considering_coord[1]]
+
+                # considering a square with a piece
+                if isinstance(target_square, chessPiece):
+                    if not current_piece.color:  # current piece is white
+                        if not target_square.color:  # target square has a white piece too
+                            break
+                        if target_square.color:  # target square has a black piece
+                            possible_moves.append(considering_coord)
+                            break
+
+                    if current_piece.color:  # current piece is black
+                        if target_square.color:  # target square has a black piece too
+                            break
+                        if not target_square.color:  # target square has a white piece
+                            possible_moves.append(considering_coord)
+                            break
+                # considering an empty square
+                else:
+                    possible_moves.append(considering_coord)
+                    considering_coord = sumTuple(considering_coord, tup)
+
+        helpCheckQueen((1, 0))
+        helpCheckQueen((-1, 0))
+        helpCheckQueen((0, 1))
+        helpCheckQueen((0, -1))
+        helpCheckQueen((1, 1))
+        helpCheckQueen((1, -1))
+        helpCheckQueen((-1, 1))
+        helpCheckQueen((-1, -1))
+        return possible_moves
+
+
 
 class Rook(chessPiece):
     def __init__(self, name, color, coord):
@@ -354,6 +399,7 @@ class Rook(chessPiece):
         helpCheckRook((0, -1))
 
         return possible_moves
+
 
 class Knight(chessPiece):
     def __init__(self, name, color, coord):
