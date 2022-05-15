@@ -86,20 +86,22 @@ class Pawn(chessPiece):
             possible_moves = []
 
             # capture diagonal: up 1 right 1
-            u1r1 = board[board_coord[0] - 1][board_coord[1] + 1]
-            if isinstance(u1r1, chessPiece):
-                print('a chess piece at the right diagonal')
-                if u1r1.color:
-                    possible_moves.append(sumTuple(first_click_coord, (-1, 1)))  # can move up 1 right 1
+            if withinBoardBounds(sumTuple(board_coord, (-1, 1))):
+                u1r1 = board[board_coord[0] - 1][board_coord[1] + 1]
+                if isinstance(u1r1, chessPiece):
+                    print('a chess piece at the right diagonal')
+                    if u1r1.color:
+                        possible_moves.append(sumTuple(first_click_coord, (-1, 1)))  # can move up 1 right 1
             # capture diagonal: up 1 left 1
-            u1l1 = board[board_coord[0] - 1][board_coord[1] - 1]
-            if isinstance(u1l1, chessPiece):
-                print('a chess piece at the left diagonal')
-                if u1l1.color:
-                    possible_moves.append(sumTuple(first_click_coord, (-1, -1)))  # can move up 1 left 1
+            if withinBoardBounds(sumTuple(board_coord, (-1, -1))):
+                u1l1 = board[board_coord[0] - 1][board_coord[1] - 1]
+                if isinstance(u1l1, chessPiece):
+                    print('a chess piece at the left diagonal')
+                    if u1l1.color:
+                        possible_moves.append(sumTuple(first_click_coord, (-1, -1)))  # can move up 1 left 1
 
             # at start position, able to move forward two spaces when BOTH spaces ahead are empty
-            elif board_coord[0] == 6:
+            if board_coord[0] == 6:
                 if board[board_coord[0]-2][board_coord[1]] is None and board[board_coord[0]-1][board_coord[1]] is None:
                     possible_moves.append(sumTuple(first_click_coord, (-2, 0)))
 

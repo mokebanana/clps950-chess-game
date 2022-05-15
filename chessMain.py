@@ -151,7 +151,6 @@ def main():
                                         if l1.num_moves == 1:
                                             gs.movePiecePassant(l1)
                                             helpRemovePiece(screen, first_click_coord[0], first_click_coord[1] - 1)
-
                             # up 1 right 1:
                             if first_second_diff == (-1, 1):
                                 r1 = board[first_click_coord[0]][first_click_coord[1] + 1]
