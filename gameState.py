@@ -82,15 +82,13 @@ class GameState:
         # update curr_piece's own coord
         if isinstance(curr_piece, pieces.chessPiece):
             curr_piece.moveTo(new_coord)
-            print('#### ran moveTo')
             if isinstance(curr_piece, pieces.Pawn):
                 print('old move count: ' + str(curr_piece.num_moves))
                 print('because this is a pawn piece, need to advance the move count')
-                curr_piece.num_moves += 1
+                curr_piece.num_moves += 1  # because this is a pawn piece, need to advance the move count
                 print('new move count: ' + str(curr_piece.num_moves))
 
-        print('**** ran movePiece')
-
-
-    def movePiecePassant(self, curr_piece, new_coord):
-        
+    def movePiecePassant(self, piece_to_remove):
+        if isinstance(piece_to_remove, pieces.Pawn):
+            coord = piece_to_remove.coord
+            self.board[coord[0]][coord[1]] = None

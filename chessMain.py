@@ -100,7 +100,7 @@ def main():
                     mouse_coord = p.mouse.get_pos()
                     board_coord = helpGetSquare(mouse_coord)
                     second_click_coord = board_coord
-                    first_second_diff = tuple(np.subtract(first_click_coord, second_click_coord))
+                    first_second_diff = tuple(np.subtract(second_click_coord, first_click_coord))
                     print('     second click at coord' + str(second_click_coord))
 
                     if second_click_coord == first_click_coord:
@@ -117,49 +117,49 @@ def main():
 
                         # condition for en passant
                         # black pawn
-                        if isinstance(current_piece, pieces.Pawn) and current_piece == 'bP' and first_click_coord[
+                        if isinstance(current_piece, pieces.Pawn) and current_piece.color and first_click_coord[
                             0] == 4:
+                            print('b')
+                            print(first_second_diff)
                             # down 1 left 1:
                             if first_second_diff == (1, -1):
                                 l1 = board[first_click_coord[0]][first_click_coord[1] - 1]
                                 if isinstance(l1, pieces.Pawn):
-                                    if not l1.color:
+                                    if not l1.color:  # l1 is white pawn on first move
                                         if l1.num_moves == 1:
+                                            gs.movePiecePassant(l1)
                                             helpRemovePiece(screen, first_click_coord[0], first_click_coord[1] - 1)
-                                            print("ran help remove")
-                                            p.display.flip()
                             # down 1 right 1:
                             if first_second_diff == (1, 1):
                                 r1 = board[first_click_coord[0]][first_click_coord[1] + 1]
                                 if isinstance(r1, pieces.Pawn):
-                                    if not r1.color:
+                                    if not r1.color:  # r1 is white pawn on first move
                                         if r1.num_moves == 1:
+                                            gs.movePiecePassant(r1)
                                             helpRemovePiece(screen, first_click_coord[0], first_click_coord[1] + 1)
-                                            print("ran help remove")
-                                            p.display.flip()
-
                         # white pawn
-                        if isinstance(current_piece, pieces.Pawn) and current_piece == 'wP' and first_click_coord[
+                        if isinstance(current_piece, pieces.Pawn) and not current_piece.color and first_click_coord[
                             0] == 3:
+                            print('w')
                             # up 1 left 1:
                             if first_second_diff == (-1, -1):
                                 l1 = board[first_click_coord[0]][first_click_coord[1] - 1]
                                 if isinstance(l1, pieces.Pawn):
-                                    if l1.color:
+                                    if l1.color:  # l1 is black pawn on first move
                                         print('this piece has moved ' + str(l1.num_moves) + ' times')
                                         if l1.num_moves == 1:
+                                            gs.movePiecePassant(l1)
                                             helpRemovePiece(screen, first_click_coord[0], first_click_coord[1] - 1)
-                                            print("ran help remove")
-                                            p.display.flip()
+
                             # up 1 right 1:
                             if first_second_diff == (-1, 1):
                                 r1 = board[first_click_coord[0]][first_click_coord[1] + 1]
                                 if isinstance(r1, pieces.Pawn):
-                                    if r1.color:
+                                    if r1.color:  # r1 is black pawn on first move
                                         if r1.num_moves == 1:
+                                            gs.movePiecePassant(r1)
                                             helpRemovePiece(screen, first_click_coord[0], first_click_coord[1] + 1)
                                             print("ran help remove")
-                                            p.display.flip()
 
                         gs.movePiece(current_piece, second_click_coord)
                         print(*gs.board)
@@ -255,7 +255,6 @@ def highlightRed(screen, board_pos):
     :param board_pos:
     :return:
     """
-    print('highlight red at ' + str(board_pos))
     board_x = board_pos[0]
     board_y = board_pos[1]
     screen.blit(p.transform.scale(imageDict['redborder'], (squareLength, squareLength)),
