@@ -309,83 +309,51 @@ class Rook(chessPiece):
 
     def get_moves(self, board_coord, board, first_click_coord):
         possible_moves = []
-        still_looking = True
-        considering_coord = (tuple(map(sum, zip(first_click_coord, (0, 1)))))
-        while still_looking:
-            if board[board_coord[0] + 0][board_coord[1] + 1] is not None:
-                if self.color is False:
-                    if considering_coord == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                        still_looking = False
-                    elif considering_coord == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                        possible_moves.append(considering_coord)
-                        break
-                if self.color is True:
-                    if considering_coord == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                        still_looking = False
-                    elif considering_coord == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, 1)))))
-                        still_looking = False
-            else:
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, 1)))))
-                considering_coord = (tuple(map(sum, zip(considering_coord, (0, 1)))))
-        considering_coord2 = (tuple(map(sum, zip(first_click_coord, (0, -1)))))
-        while still_looking:
-            if board[board_coord[0] + 0][board_coord[1] - 1] is not None:
-                if self.color is False:
-                    if considering_coord2 == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                        still_looking = False
-                    elif considering_coord2 == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, -1)))))
-                        break
-                if self.color is True:
-                    if considering_coord2 == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                        still_looking = False
-                    elif considering_coord2 == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, -1)))))
-                        still_looking = False
-            else:
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, -1)))))
-                considering_coord2 = (tuple(map(sum, zip(considering_coord, (0, -1)))))
-        considering_coord3 = (tuple(map(sum, zip(first_click_coord, (1, 0)))))
-        while still_looking:
-            if board[board_coord[0] + 1][board_coord[1] + 0] is not None:
-                if self.color is False:
-                    if considering_coord3 == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                        still_looking = False
-                    elif considering_coord3 == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, 0)))))
-                        break
-                if considering_coord is None:
-                    possible_moves.append(self.coord + (1, 1))
-                if self.color is True:
-                    if considering_coord3 == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                        still_looking = False
-                    elif considering_coord3 == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, 0)))))
-                        still_looking = False
-            else:
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, 0)))))
-                considering_coord3 = (tuple(map(sum, zip(considering_coord, (1, 0)))))
-        considering_coord4 = (tuple(map(sum, zip(first_click_coord, (-1, 0)))))
-        while still_looking:
-            if board[board_coord[0] - 1][board_coord[1] + 0] is not None:
-                if self.color is False:
-                    if considering_coord4 == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                        still_looking = False
-                    elif considering_coord4 == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, 0)))))
-                        break
-                if self.color is True:
-                    if considering_coord4 == ("bR" or "bP" or "bB" or "bK" or "bN" or "bQ"):
-                        still_looking = False
-                    elif considering_coord4 == ("wR" or "wP" or "wB" or "wK" or "wN" or "wQ"):
-                        possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, 0)))))
-                        still_looking = False
-            else:
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, 0)))))
-                considering_coord = (tuple(map(sum, zip(considering_coord, (-1, 0)))))
-        return possible_moves
+        current_piece = board[board_coord[0]][board_coord[1]]
 
+        def helpCheckRook(tup):
+            considering_coord = sumTuple(first_click_coord, tup)
+            while True:
+                # if out of bounds of the board
+                if not withinBoardBounds(considering_coord):
+                    break
+
+                # now that we know the target square is not out of bounds...
+                target_square = board[considering_coord[0]][considering_coord[1]]
+
+                # considering a square with a piece
+                if isinstance(target_square, chessPiece):
+                    if not current_piece.color:  # current piece is white
+                        if not target_square.color:  # target square has a white piece too
+                            break
+                        if target_square.color:  # target square has a black piece
+                            possible_moves.append(considering_coord)
+                            break
+
+                    if current_piece.color:  # current piece is black
+                        if target_square.color:  # target square has a black piece too
+                            break
+                        if not target_square.color:  # target square has a white piece
+                            possible_moves.append(considering_coord)
+                            break
+                # considering an empty square
+                else:
+                    possible_moves.append(considering_coord)
+                    considering_coord = sumTuple(considering_coord, tup)
+
+        # down
+        helpCheckRook((1, 0))
+
+        # up
+        helpCheckRook((-1, 0))
+
+        # right
+        helpCheckRook((0, 1))
+
+        # left
+        helpCheckRook((0, -1))
+
+        return possible_moves
 
 class Knight(chessPiece):
     def __init__(self, name, color, coord):
