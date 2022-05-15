@@ -127,8 +127,7 @@ class Pawn(chessPiece):
 
             # at start position, able to move forward two spaces when BOTH spaces ahead are empty
             if board_coord[0] == 6:
-                if board[board_coord[0] - 2][board_coord[1]] is None and board[board_coord[0] - 1][
-                    board_coord[1]] is None:
+                if board[board_coord[0]-2][board_coord[1]] is None and board[board_coord[0]-1][board_coord[1]] is None:
                     possible_moves.append(sumTuple(first_click_coord, (-2, 0)))
 
             # in general, can move forward one space when space ahead is empty
@@ -190,6 +189,7 @@ class Bishop(chessPiece):
         helpCheckBishop((-1, -1))
 
         return possible_moves
+
 
 class King(chessPiece):
     def __init__(self, name, color, coord):

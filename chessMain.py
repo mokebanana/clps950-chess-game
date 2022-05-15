@@ -157,6 +157,7 @@ def main():
                         print(*gs.board)
 
                         # draw selected piece at new position
+                        helpRemovePiece(screen, board_coord[0], board_coord[1])
                         helpDrawPiece(screen, board_coord[0], board_coord[1], getattr(current_piece, 'name'))
 
                         # remove old piece graphics
