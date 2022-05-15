@@ -127,7 +127,8 @@ class Pawn(chessPiece):
 
             # at start position, able to move forward two spaces when BOTH spaces ahead are empty
             if board_coord[0] == 6:
-                if board[board_coord[0]-2][board_coord[1]] is None and board[board_coord[0]-1][board_coord[1]] is None:
+                if board[board_coord[0] - 2][board_coord[1]] is None and board[board_coord[0] - 1][
+                    board_coord[1]] is None:
                     possible_moves.append(sumTuple(first_click_coord, (-2, 0)))
 
             # in general, can move forward one space when space ahead is empty
@@ -144,50 +145,9 @@ class Bishop(chessPiece):
 
     def get_moves(self, board_coord, board, first_click_coord):
         possible_moves = []
-        current_piece = board[board_coord[0]][board_coord[1]]
-
-        def helpCheckBishop(tup):
-            considering_coord = sumTuple(first_click_coord, tup)
-            while True:
-                # if out of bounds of the board
-                if not withinBoardBounds(considering_coord):
-                    break
-
-                # now that we know the target square is not out of bounds...
-                target_square = board[considering_coord[0]][considering_coord[1]]
-
-                # considering a square with a piece
-                if isinstance(target_square, chessPiece):
-                    if not current_piece.color:  # current piece is white
-                        if not target_square.color:  # target square has a white piece too
-                            break
-                        if target_square.color:  # target square has a black piece
-                            possible_moves.append(considering_coord)
-                            break
-
-                    if current_piece.color:  # current piece is black
-                        if target_square.color:  # target square has a black piece too
-                            break
-                        if not target_square.color:  # target square has a white piece
-                            possible_moves.append(considering_coord)
-                            break
-                # considering an empty square
-                else:
-                    possible_moves.append(considering_coord)
-                    considering_coord = sumTuple(considering_coord, tup)
-
-        # down right
-        helpCheckBishop((1, 1))
-
-        # down left
-        helpCheckBishop((1, -1))
-
-        # up right
-        helpCheckBishop((-1, 1))
-
-        # up left
-        helpCheckBishop((-1, -1))
-
+        directions = [(1, 1), (1, -1), (-1, 1), (-1, -1)]
+        for direction in directions:
+            helpCheckPiece(first_click_coord, board, board_coord, possible_moves, direction)
         return possible_moves
 
 
@@ -304,48 +264,11 @@ class Queen(chessPiece):
 
     def get_moves(self, board_coord, board, first_click_coord):
         possible_moves = []
-        current_piece = board[board_coord[0]][board_coord[1]]
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (1, -1), (-1, 1), (-1, -1)]
+        for direction in directions:
+            helpCheckPiece(first_click_coord, board, board_coord, possible_moves, direction)
 
-        def helpCheckQueen(tup):
-            considering_coord = sumTuple(first_click_coord, tup)
-            while True:
-                # if out of bounds of the board
-                if not withinBoardBounds(considering_coord):
-                    break
-
-                # now that we know the target square is not out of bounds...
-                target_square = board[considering_coord[0]][considering_coord[1]]
-
-                # considering a square with a piece
-                if isinstance(target_square, chessPiece):
-                    if not current_piece.color:  # current piece is white
-                        if not target_square.color:  # target square has a white piece too
-                            break
-                        if target_square.color:  # target square has a black piece
-                            possible_moves.append(considering_coord)
-                            break
-
-                    if current_piece.color:  # current piece is black
-                        if target_square.color:  # target square has a black piece too
-                            break
-                        if not target_square.color:  # target square has a white piece
-                            possible_moves.append(considering_coord)
-                            break
-                # considering an empty square
-                else:
-                    possible_moves.append(considering_coord)
-                    considering_coord = sumTuple(considering_coord, tup)
-
-        helpCheckQueen((1, 0))
-        helpCheckQueen((-1, 0))
-        helpCheckQueen((0, 1))
-        helpCheckQueen((0, -1))
-        helpCheckQueen((1, 1))
-        helpCheckQueen((1, -1))
-        helpCheckQueen((-1, 1))
-        helpCheckQueen((-1, -1))
         return possible_moves
-
 
 
 class Rook(chessPiece):
@@ -354,49 +277,9 @@ class Rook(chessPiece):
 
     def get_moves(self, board_coord, board, first_click_coord):
         possible_moves = []
-        current_piece = board[board_coord[0]][board_coord[1]]
-
-        def helpCheckRook(tup):
-            considering_coord = sumTuple(first_click_coord, tup)
-            while True:
-                # if out of bounds of the board
-                if not withinBoardBounds(considering_coord):
-                    break
-
-                # now that we know the target square is not out of bounds...
-                target_square = board[considering_coord[0]][considering_coord[1]]
-
-                # considering a square with a piece
-                if isinstance(target_square, chessPiece):
-                    if not current_piece.color:  # current piece is white
-                        if not target_square.color:  # target square has a white piece too
-                            break
-                        if target_square.color:  # target square has a black piece
-                            possible_moves.append(considering_coord)
-                            break
-
-                    if current_piece.color:  # current piece is black
-                        if target_square.color:  # target square has a black piece too
-                            break
-                        if not target_square.color:  # target square has a white piece
-                            possible_moves.append(considering_coord)
-                            break
-                # considering an empty square
-                else:
-                    possible_moves.append(considering_coord)
-                    considering_coord = sumTuple(considering_coord, tup)
-
-        # down
-        helpCheckRook((1, 0))
-
-        # up
-        helpCheckRook((-1, 0))
-
-        # right
-        helpCheckRook((0, 1))
-
-        # left
-        helpCheckRook((0, -1))
+        directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+        for direction in directions:
+            helpCheckPiece(first_click_coord, board, board_coord, possible_moves, direction)
 
         return possible_moves
 
@@ -465,3 +348,35 @@ def sumTuple(t1, t2):
 
 def withinBoardBounds(want_to_go_to):
     return 7 >= want_to_go_to[0] >= 0 and 7 >= want_to_go_to[1] >= 0
+
+
+def helpCheckPiece(first_click_coord, board, board_coord, possible_moves, tup):
+    current_piece = board[board_coord[0]][board_coord[1]]
+    considering_coord = sumTuple(first_click_coord, tup)
+    while True:
+        # if out of bounds of the board
+        if not withinBoardBounds(considering_coord):
+            break
+
+        # now that we know the target square is not out of bounds...
+        target_square = board[considering_coord[0]][considering_coord[1]]
+
+        # considering a square with a piece
+        if isinstance(target_square, chessPiece):
+            if not current_piece.color:  # current piece is white
+                if not target_square.color:  # target square has a white piece too
+                    break
+                if target_square.color:  # target square has a black piece
+                    possible_moves.append(considering_coord)
+                    break
+
+            if current_piece.color:  # current piece is black
+                if target_square.color:  # target square has a black piece too
+                    break
+                if not target_square.color:  # target square has a white piece
+                    possible_moves.append(considering_coord)
+                    break
+        # considering an empty square
+        else:
+            possible_moves.append(considering_coord)
+            considering_coord = sumTuple(considering_coord, tup)
