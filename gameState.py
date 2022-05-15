@@ -70,21 +70,27 @@ class GameState:
             updates new square to have curr_piece
         """
         # update square at oldCoord: None
-        old_coord = getattr(curr_piece, 'coord')  # TODO: issue here, won't erase old coord from gs.board
+        old_coord = getattr(curr_piece, 'coord')
         print('---- ' + str(old_coord))
         old_r = old_coord[0]
         old_c = old_coord[1]
         self.board[old_r][old_c] = None
 
         # update square at newCoord: piece
-        new_r = new_coord[1]
-        new_c = new_coord[0]
-        flipped_new_coord = (new_r, new_c)  # TODO: the flip was a temporary fix
-        self.board[new_r][new_c] = curr_piece
+        self.board[new_coord[0]][new_coord[1]] = curr_piece
 
         # update curr_piece's own coord
         if isinstance(curr_piece, pieces.chessPiece):
-            curr_piece.moveTo(flipped_new_coord)
-            print('#### ran moveT0')
+            curr_piece.moveTo(new_coord)
+            print('#### ran moveTo')
+            if isinstance(curr_piece, pieces.Pawn):
+                print('old move count: ' + str(curr_piece.num_moves))
+                print('because this is a pawn piece, need to advance the move count')
+                curr_piece.num_moves += 1
+                print('new move count: ' + str(curr_piece.num_moves))
 
         print('**** ran movePiece')
+
+
+    def movePiecePassant(self, curr_piece, new_coord):
+        

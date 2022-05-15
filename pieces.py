@@ -1,3 +1,7 @@
+a_white_piece = "wR" or "wP" or "wB" or "wK" or "wN" or "wQ"
+a_black_piece = "bR" or "bP" or "bB" or "bK" or "bN" or "bQ"
+
+
 class chessPiece():  # parent class
     def __init__(self, name, color, coord):
         self.name = name
@@ -19,6 +23,7 @@ class chessPiece():  # parent class
 class Pawn(chessPiece):
     def __init__(self, name, color, coord):
         super().__init__(name, color, coord)
+        self.num_moves = 0
 
     def get_moves(self, board_coord, board, first_click_coord):
         """
@@ -28,54 +33,80 @@ class Pawn(chessPiece):
         :param first_click_coord:
         :return:
         """
+        black_pawn_moves = []
+
         # black to move
         if self.color is True:
             possible_moves = []
-            if board[board_coord[0] + 1][board_coord[1] + 1] is not None:
-                if board[board_coord[0] + 1][board_coord[1] + 1] == ("wR" or "wP" or "wB" or "wN" or "wQ"):
-                    possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, 1)))))
-                else:
-                    pass
-            elif board[board_coord[0] - 1][board_coord[1] + 1] is not None:
-                if board[board_coord[0] + 1][board_coord[1] - 1] == ("wR" or "wP" or "wB" or "wN" or "wQ"):
-                    possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, 1)))))
-                else:
-                    pass
-            elif board_coord[1] == 1:
-                if board[board_coord[0] + 0][board_coord[1] + 2] is None:
-                    possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, 2)))))
-                if board[board_coord[0] + 0][board_coord[1] + 1] is None:
-                    possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, 1)))))
-            elif board[board_coord[0] + 0][board_coord[1] + 1] is None:
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, -1)))))
-            else:
-                pass
+
+            # en passant: if current black piece is on row 4 & there is a white pawn to its left/right w/ num_moves = 1
+            if board_coord[0] == 4:
+                l1 = board[board_coord[0]][board_coord[1] - 1]
+                r1 = board[board_coord[0]][board_coord[1] + 1]
+
+                # there is a white pawn to its left w/ num_moves = 1
+                if isinstance(l1, Pawn):
+                    if not l1.color:
+                        if l1.num_moves == 1:
+                            possible_moves.append(sumTuple(first_click_coord, (1, -1)))  # can move down 1 left 1
+
+                # there is a white pawn to its right w/ num_moves = 1
+                if isinstance(r1, Pawn):
+                    if not r1.color:
+                        if r1.num_moves == 1:
+                            possible_moves.append(sumTuple(first_click_coord, (1, 1)))  # can move down 1 right 1
+
+            # regular diagonal capture: down 1 right 1
+            d1r1 = board[board_coord[0] + 1][board_coord[1] + 1]
+            if isinstance(d1r1, chessPiece):
+                print('a chess piece at the right diagonal')
+                if not d1r1.color:
+                    possible_moves.append(sumTuple(first_click_coord, (1, 1)))
+            # regular diagonal capture: down 1 left 1
+            d1l1 = board[board_coord[0] + 1][board_coord[1] - 1]
+            if isinstance(d1l1, chessPiece):
+                print('a chess piece at the left diagonal')
+                if not d1l1.color:
+                    possible_moves.append(sumTuple(first_click_coord, (1, -1)))
+
+            # at start position, able to move forward two spaces when BOTH spaces ahead are empty
+            if board_coord[0] == 1:
+                if board[board_coord[0] + 2][board_coord[1]] is None and board[board_coord[0] + 1][board_coord[1] +
+                                                                                                       0] is None:
+                    possible_moves.append(sumTuple(first_click_coord, (2, 0)))
+
+            # in general, can move forward one space when space ahead is empty
+            if board[board_coord[0] + 1][board_coord[1]] is None:
+                possible_moves.append(sumTuple(first_click_coord, (1, 0)))
+
             return possible_moves
+
         # white to move
         if self.color is False:
             possible_moves = []
-            if board[board_coord[0] + 1][board_coord[1] - 1] is not None:
-                if board[board_coord[0] + 1][board_coord[1] - 1] == ("bR" or "bP" or "bB" or "bN" or "bQ"):
-                    # add the possible move for capturing diagonal
-                    possible_moves.append(tuple(map(sum, zip(first_click_coord, (1, -1)))))
-                else:
-                    pass
-            elif board[board_coord[0] - 1][board_coord[1] - 1] is not None:
-                if board[board_coord[0] - 1][board_coord[1] - 1] == ("bR" or "bP" or "bB" or "bN" or "bQ"):
-                    possible_moves.append(tuple(map(sum, zip(first_click_coord, (-1, -1)))))
-                else:
-                    pass
-            elif board_coord[1] == 6:
-                if board[board_coord[0] + 0][board_coord[1] - 2] is None:
-                    tupP1 = tuple(map(sum, zip(first_click_coord, (0, -2))))
-                    possible_moves.append(tupP1)
-                if board[board_coord[0] + 0][board_coord[1] - 1] is None:
-                    tupP2 = tuple(map(sum, zip(first_click_coord, (0, -1))))
-                    possible_moves.append(tupP2)
-            elif board[board_coord[0] + 0][board_coord[1] - 1] is None:
-                possible_moves.append(tuple(map(sum, zip(first_click_coord, (0, -1)))))
-            else:
-                pass
+
+            # capture diagonal: up 1 right 1
+            u1r1 = board[board_coord[0] - 1][board_coord[1] + 1]
+            if isinstance(u1r1, chessPiece):
+                print('a chess piece at the right diagonal')
+                if u1r1.color:
+                    possible_moves.append(sumTuple(first_click_coord, (-1, 1)))  # can move up 1 right 1
+            # capture diagonal: up 1 left 1
+            u1l1 = board[board_coord[0] - 1][board_coord[1] - 1]
+            if isinstance(u1l1, chessPiece):
+                print('a chess piece at the left diagonal')
+                if u1l1.color:
+                    possible_moves.append(sumTuple(first_click_coord, (-1, -1)))  # can move up 1 left 1
+
+            # at start position, able to move forward two spaces when BOTH spaces ahead are empty
+            elif board_coord[0] == 6:
+                if board[board_coord[0]-2][board_coord[1]] is None and board[board_coord[0]-1][board_coord[1]] is None:
+                    possible_moves.append(sumTuple(first_click_coord, (-2, 0)))
+
+            # in general, can move forward one space when space ahead is empty
+            if board[board_coord[0] - 1][board_coord[1]] is None:
+                possible_moves.append(sumTuple(first_click_coord, (-1, 0)))
+
             return possible_moves
 
 
@@ -376,20 +407,24 @@ class Knight(chessPiece):
         d2r1 = (2, 1)
         d2l1 = (2, -1)
         u2r1 = (-2, 1)
-        u2l1 = (-2, -2)
+        u2l1 = (-2, -1)
 
         knight_moves = [d1r2, d1l2, u1r2, u1l2, d2r1, d2l1, u2r1, u2l1]
 
         def getSquare(knight_move):
-            return board[board_coord[0] + knight_move[0]][board_coord[1] + knight_move[1]]
+            ind = sumTuple(knight_move, board_coord)
+            return board[ind[0]][ind[1]]
 
         def helpAppend(knight_move):
             return possible_moves.append(sumTuple(first_click_coord, knight_move))
 
         for move in knight_moves:
+            print(' -> the move being checked is ' + str(move))
 
             # need to check if within chessboard bounds
             want_to_go_to = sumTuple(board_coord, move)
+            print('     square: ' + str(want_to_go_to))
+
             if withinBoardBounds(want_to_go_to):
 
                 # black
@@ -406,12 +441,23 @@ class Knight(chessPiece):
 
 
 def canGoBlack(target_square):
-    a_white_piece = "wR" or "wP" or "wB" or "wK" or "wN" or "wQ"
+    if target_square is None:
+        print(str(target_square) + ' is empty')
+    if target_square == a_white_piece:
+        print(str(target_square) + ' is an opponent piece')
     return target_square is None or target_square == a_white_piece
 
 
 def canGoWhite(target_square):
-    a_black_piece = "bR" or "bP" or "bB" or "bK" or "bN" or "bQ"
+    if target_square is None:
+        print('     * ' + str(target_square) + ' is empty')
+
+    elif target_square == a_black_piece:
+        print('     * ' + str(target_square) + ' is an opponent piece')
+
+    else:
+        print('     * ' + str(target_square))
+
     return target_square is None or target_square == a_black_piece
 
 
@@ -420,4 +466,7 @@ def sumTuple(t1, t2):
 
 
 def withinBoardBounds(want_to_go_to):
+    if want_to_go_to[0] > 7 or want_to_go_to[1] > 7:
+        print('     * out of bounds')
+
     return want_to_go_to[0] <= 7 and want_to_go_to[1] <= 7

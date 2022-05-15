@@ -46,6 +46,7 @@ def main():
     current_piece = None
     first_click_coord = None
     possible_moves = None
+    first_second_diff = None
 
     running = True
     while running:
@@ -64,12 +65,13 @@ def main():
                 # handle first click
                 if click_count == 1:
                     mouse_coord = p.mouse.get_pos()
+                    print(mouse_coord)
                     board_coord = helpGetSquare(mouse_coord)
                     first_click_coord = board_coord  # save where the first click was to check against second click
                     print('     first click at coord ' + str(first_click_coord))
 
                     # is there a piece at that board_coord
-                    current_piece = board[board_coord[1]][board_coord[0]]
+                    current_piece = board[board_coord[0]][board_coord[1]]
                     if current_piece is not None:  # there is a piece at that coord
                         print('     there is a piece at first click, the piece is ' + getattr(current_piece, 'name'))
                         color_can_move = gs.whiteMoveNext != getattr(current_piece, 'color')
@@ -98,9 +100,8 @@ def main():
                     mouse_coord = p.mouse.get_pos()
                     board_coord = helpGetSquare(mouse_coord)
                     second_click_coord = board_coord
+                    first_second_diff = tuple(np.subtract(first_click_coord, second_click_coord))
                     print('     second click at coord' + str(second_click_coord))
-                    landing_spot = board[board_coord[1]][
-                        board_coord[0]]  # TODO: why is this needed? is it to check if empty?
 
                     if second_click_coord == first_click_coord:
                         print('     same spot! canceled')
@@ -113,14 +114,61 @@ def main():
                         print('     second click, not in same spot, move to new coord')
                         # TODO: in this case, move the piece and use up move (toggle gs.whiteMoveNext) (helpDrawPiece)
                         gs.whiteMoveNext = not gs.whiteMoveNext  # toggle whiteMoveNext -> not doing anything rn
+
+                        # condition for en passant
+                        # black pawn
+                        if isinstance(current_piece, pieces.Pawn) and current_piece == 'bP' and first_click_coord[
+                            0] == 4:
+                            # down 1 left 1:
+                            if first_second_diff == (1, -1):
+                                l1 = board[first_click_coord[0]][first_click_coord[1] - 1]
+                                if isinstance(l1, pieces.Pawn):
+                                    if not l1.color:
+                                        if l1.num_moves == 1:
+                                            helpRemovePiece(screen, first_click_coord[0], first_click_coord[1] - 1)
+                                            print("ran help remove")
+                                            p.display.flip()
+                            # down 1 right 1:
+                            if first_second_diff == (1, 1):
+                                r1 = board[first_click_coord[0]][first_click_coord[1] + 1]
+                                if isinstance(r1, pieces.Pawn):
+                                    if not r1.color:
+                                        if r1.num_moves == 1:
+                                            helpRemovePiece(screen, first_click_coord[0], first_click_coord[1] + 1)
+                                            print("ran help remove")
+                                            p.display.flip()
+
+                        # white pawn
+                        if isinstance(current_piece, pieces.Pawn) and current_piece == 'wP' and first_click_coord[
+                            0] == 3:
+                            # up 1 left 1:
+                            if first_second_diff == (-1, -1):
+                                l1 = board[first_click_coord[0]][first_click_coord[1] - 1]
+                                if isinstance(l1, pieces.Pawn):
+                                    if l1.color:
+                                        print('this piece has moved ' + str(l1.num_moves) + ' times')
+                                        if l1.num_moves == 1:
+                                            helpRemovePiece(screen, first_click_coord[0], first_click_coord[1] - 1)
+                                            print("ran help remove")
+                                            p.display.flip()
+                            # up 1 right 1:
+                            if first_second_diff == (-1, 1):
+                                r1 = board[first_click_coord[0]][first_click_coord[1] + 1]
+                                if isinstance(r1, pieces.Pawn):
+                                    if r1.color:
+                                        if r1.num_moves == 1:
+                                            helpRemovePiece(screen, first_click_coord[0], first_click_coord[1] + 1)
+                                            print("ran help remove")
+                                            p.display.flip()
+
                         gs.movePiece(current_piece, second_click_coord)
                         print(*gs.board)
 
                         # draw selected piece at new position
-                        helpDrawPiece(screen, board_coord[1], board_coord[0], getattr(current_piece, 'name'))  # todo
+                        helpDrawPiece(screen, board_coord[0], board_coord[1], getattr(current_piece, 'name'))  # todo
 
                         # remove old piece graphics
-                        helpRemovePiece(screen, first_click_coord[1], first_click_coord[0])
+                        helpRemovePiece(screen, first_click_coord[0], first_click_coord[1])
 
                         # update graphics
                         p.display.flip()
@@ -179,8 +227,8 @@ def helpGetSquare(mouse_pos):
     :param mouse_pos: in reference to top left of screen (x, y) coordinates
     :return: (x, y) coordinates in terms of board indices
     """
-    board_x = mouse_pos[0] // squareLength
-    board_y = mouse_pos[1] // squareLength
+    board_x = mouse_pos[1] // squareLength
+    board_y = mouse_pos[0] // squareLength
 
     pos = (board_x, board_y)
 
@@ -197,7 +245,7 @@ def highlightGreen(screen, board_pos):
     board_x = board_pos[0]
     board_y = board_pos[1]
     screen.blit(p.transform.scale(imageDict['border'], (squareLength, squareLength)),
-                (board_x * squareLength, board_y * squareLength))
+                (board_y * squareLength, board_x * squareLength))
 
 
 def highlightRed(screen, board_pos):
@@ -207,10 +255,11 @@ def highlightRed(screen, board_pos):
     :param board_pos:
     :return:
     """
+    print('highlight red at ' + str(board_pos))
     board_x = board_pos[0]
     board_y = board_pos[1]
     screen.blit(p.transform.scale(imageDict['redborder'], (squareLength, squareLength)),
-                (board_x * squareLength, board_y * squareLength))
+                (board_y * squareLength, board_x * squareLength))
     p.display.flip()
 
 
