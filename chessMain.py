@@ -101,6 +101,8 @@ def main():
                     if second_click_coord == first_click_coord:
                         print('     same spot! canceled')
                         click_count = 0
+                        displayGS(screen, gs)
+                        p.display.flip()
                     elif second_click_coord not in possible_moves:
                         print('     move to ' + str(second_click_coord) + ' not possible')
                         print('     instead, here are the possible moves: ' + str(possible_moves))
