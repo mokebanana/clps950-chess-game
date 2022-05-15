@@ -442,23 +442,18 @@ class Knight(chessPiece):
 
 def canGoBlack(target_square):
     if target_square is None:
-        print(str(target_square) + ' is empty')
-    if target_square == a_white_piece:
-        print(str(target_square) + ' is an opponent piece')
-    return target_square is None or target_square == a_white_piece
+        print('     * ' + str(target_square) + ' is empty')
+    if isinstance(target_square, chessPiece) and not target_square.color:
+        print('     * ' + str(target_square) + ' is an opponent piece')
+    return target_square is None or (isinstance(target_square, chessPiece) and not target_square.color)
 
 
 def canGoWhite(target_square):
     if target_square is None:
         print('     * ' + str(target_square) + ' is empty')
-
-    elif target_square == a_black_piece:
+    if isinstance(target_square, chessPiece) and target_square.color:
         print('     * ' + str(target_square) + ' is an opponent piece')
-
-    else:
-        print('     * ' + str(target_square))
-
-    return target_square is None or target_square == a_black_piece
+    return target_square is None or (isinstance(target_square, chessPiece) and target_square.color)
 
 
 def sumTuple(t1, t2):
