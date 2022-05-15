@@ -112,6 +112,7 @@ def main():
                         click_count = 0
                     else:
                         print('     second click, not in same spot, move to new coord')
+                        displayGS(screen, gs)
                         # TODO: in this case, move the piece and use up move (toggle gs.whiteMoveNext) (helpDrawPiece)
                         gs.whiteMoveNext = not gs.whiteMoveNext  # toggle whiteMoveNext -> not doing anything rn
 
