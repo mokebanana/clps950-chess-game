@@ -1,6 +1,4 @@
 import pygame as p
-import matplotlib as plt
-from PIL import Image
 import numpy as np
 
 # global variables for board dimensions and piece graphics
@@ -46,7 +44,6 @@ def main():
     current_piece = None
     first_click_coord = None
     possible_moves = None
-    first_second_diff = None
 
     running = True
     while running:
@@ -79,9 +76,7 @@ def main():
                             print('     a piece of this color is able to move')
                             # what are its options to move?
                             highlightRed(screen, board_coord)
-                            # TODO: pass in diff rules for diff pieces
-                            possible_moves = current_piece.get_moves(board_coord, board,
-                                                                     first_click_coord)
+                            possible_moves = current_piece.get_moves(board_coord, board, first_click_coord)
                             if possible_moves is not None:
                                 for possible_move in possible_moves:
                                     highlightGreen(screen, possible_move)
@@ -110,18 +105,16 @@ def main():
                         print('     move to ' + str(second_click_coord) + ' not possible')
                         print('     instead, here are the possible moves: ' + str(possible_moves))
                         click_count = 0
+                        displayGS(screen, gs)
+                        p.display.flip()
                     else:
                         print('     second click, not in same spot, move to new coord')
                         displayGS(screen, gs)
-                        # TODO: in this case, move the piece and use up move (toggle gs.whiteMoveNext) (helpDrawPiece)
                         gs.whiteMoveNext = not gs.whiteMoveNext  # toggle whiteMoveNext -> not doing anything rn
 
-                        # condition for en passant
-                        # black pawn
+                        # condition for en passant: black pawn
                         if isinstance(current_piece, pieces.Pawn) and current_piece.color and first_click_coord[
                             0] == 4:
-                            print('b')
-                            print(first_second_diff)
                             # down 1 left 1:
                             if first_second_diff == (1, -1):
                                 l1 = board[first_click_coord[0]][first_click_coord[1] - 1]
@@ -141,13 +134,11 @@ def main():
                         # white pawn
                         if isinstance(current_piece, pieces.Pawn) and not current_piece.color and first_click_coord[
                             0] == 3:
-                            print('w')
                             # up 1 left 1:
                             if first_second_diff == (-1, -1):
                                 l1 = board[first_click_coord[0]][first_click_coord[1] - 1]
                                 if isinstance(l1, pieces.Pawn):
                                     if l1.color:  # l1 is black pawn on first move
-                                        print('this piece has moved ' + str(l1.num_moves) + ' times')
                                         if l1.num_moves == 1:
                                             gs.movePiecePassant(l1)
                                             helpRemovePiece(screen, first_click_coord[0], first_click_coord[1] - 1)
@@ -159,13 +150,12 @@ def main():
                                         if r1.num_moves == 1:
                                             gs.movePiecePassant(r1)
                                             helpRemovePiece(screen, first_click_coord[0], first_click_coord[1] + 1)
-                                            print("ran help remove")
 
                         gs.movePiece(current_piece, second_click_coord)
                         print(*gs.board)
 
                         # draw selected piece at new position
-                        helpDrawPiece(screen, board_coord[0], board_coord[1], getattr(current_piece, 'name'))  # todo
+                        helpDrawPiece(screen, board_coord[0], board_coord[1], getattr(current_piece, 'name'))
 
                         # remove old piece graphics
                         helpRemovePiece(screen, first_click_coord[0], first_click_coord[1])
@@ -229,9 +219,7 @@ def helpGetSquare(mouse_pos):
     """
     board_x = mouse_pos[1] // squareLength
     board_y = mouse_pos[0] // squareLength
-
     pos = (board_x, board_y)
-
     return pos
 
 
@@ -259,7 +247,6 @@ def highlightRed(screen, board_pos):
     board_y = board_pos[1]
     screen.blit(p.transform.scale(imageDict['redborder'], (squareLength, squareLength)),
                 (board_y * squareLength, board_x * squareLength))
-    p.display.flip()
 
 
 def helpRemovePiece(screen, board_x, board_y):
@@ -270,8 +257,6 @@ def helpRemovePiece(screen, board_x, board_y):
     :param board_y:
     :return:
     """
-    # I read in pygame you can't remove, you can just draw on top in background color
-
     xy_sum = board_x + board_y
     if xy_sum % 2 == 0:
         p.draw.rect(screen, (209, 207, 188), p.Rect(board_y * squareLength, board_x * squareLength, squareLength,

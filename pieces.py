@@ -39,35 +39,41 @@ class Pawn(chessPiece):
         if self.color is True:
             possible_moves = []
 
+            # TODO: pawn promotion -> if black piece at row 6, white piece at row 1
+
             # en passant: if current black piece is on row 4 & there is a white pawn to its left/right w/ num_moves = 1
             if board_coord[0] == 4:
-                l1 = board[board_coord[0]][board_coord[1] - 1]
-                r1 = board[board_coord[0]][board_coord[1] + 1]
 
                 # there is a white pawn to its left w/ num_moves = 1
-                if isinstance(l1, Pawn):
-                    if not l1.color:
-                        if l1.num_moves == 1:
-                            possible_moves.append(sumTuple(first_click_coord, (1, -1)))  # can move down 1 left 1
+                if withinBoardBounds(sumTuple(board_coord, (0, -1))):
+                    l1 = board[board_coord[0]][board_coord[1] - 1]
+                    if isinstance(l1, Pawn):
+                        if not l1.color:
+                            if l1.num_moves == 1:
+                                possible_moves.append(sumTuple(first_click_coord, (1, -1)))  # can move down 1 left 1
 
                 # there is a white pawn to its right w/ num_moves = 1
-                if isinstance(r1, Pawn):
-                    if not r1.color:
-                        if r1.num_moves == 1:
-                            possible_moves.append(sumTuple(first_click_coord, (1, 1)))  # can move down 1 right 1
+                if withinBoardBounds(sumTuple(board_coord, (0, 1))):
+                    r1 = board[board_coord[0]][board_coord[1] + 1]
+                    if isinstance(r1, Pawn):
+                        if not r1.color:
+                            if r1.num_moves == 1:
+                                possible_moves.append(sumTuple(first_click_coord, (1, 1)))  # can move down 1 right 1
 
             # regular diagonal capture: down 1 right 1
-            d1r1 = board[board_coord[0] + 1][board_coord[1] + 1]
-            if isinstance(d1r1, chessPiece):
-                print('a chess piece at the right diagonal')
-                if not d1r1.color:
-                    possible_moves.append(sumTuple(first_click_coord, (1, 1)))
+            if withinBoardBounds(sumTuple(board_coord, (1, 1))):
+                d1r1 = board[board_coord[0] + 1][board_coord[1] + 1]
+                if isinstance(d1r1, chessPiece):
+                    print('a chess piece at the right diagonal')
+                    if not d1r1.color:
+                        possible_moves.append(sumTuple(first_click_coord, (1, 1)))
             # regular diagonal capture: down 1 left 1
-            d1l1 = board[board_coord[0] + 1][board_coord[1] - 1]
-            if isinstance(d1l1, chessPiece):
-                print('a chess piece at the left diagonal')
-                if not d1l1.color:
-                    possible_moves.append(sumTuple(first_click_coord, (1, -1)))
+            if withinBoardBounds(sumTuple(board_coord, (1, -1))):
+                d1l1 = board[board_coord[0] + 1][board_coord[1] - 1]
+                if isinstance(d1l1, chessPiece):
+                    print('a chess piece at the left diagonal')
+                    if not d1l1.color:
+                        possible_moves.append(sumTuple(first_click_coord, (1, -1)))
 
             # at start position, able to move forward two spaces when BOTH spaces ahead are empty
             if board_coord[0] == 1:
@@ -84,6 +90,25 @@ class Pawn(chessPiece):
         # white to move
         if self.color is False:
             possible_moves = []
+
+            # en passant: if current white piece is on row 3 & there is a black pawn to its left/right w/ num_moves = 1
+            if board_coord[0] == 3:
+
+                # there is a black pawn to its left w/ num_moves = 1
+                if withinBoardBounds(sumTuple(board_coord, (0, -1))):
+                    l1 = board[board_coord[0]][board_coord[1] - 1]
+                    if isinstance(l1, Pawn):
+                        if l1.color:
+                            if l1.num_moves == 1:
+                                possible_moves.append(sumTuple(first_click_coord, (-1, -1)))  # can move up 1 left 1
+
+                # there is a white pawn to its right w/ num_moves = 1
+                if withinBoardBounds(sumTuple(board_coord, (0, 1))):
+                    r1 = board[board_coord[0]][board_coord[1] + 1]
+                    if isinstance(r1, Pawn):
+                        if r1.color:
+                            if r1.num_moves == 1:
+                                possible_moves.append(sumTuple(first_click_coord, (-1, 1)))  # can move up 1 right 1
 
             # capture diagonal: up 1 right 1
             if withinBoardBounds(sumTuple(board_coord, (-1, 1))):
