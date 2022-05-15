@@ -92,3 +92,24 @@ class GameState:
         if isinstance(piece_to_remove, pieces.Pawn):
             coord = piece_to_remove.coord
             self.board[coord[0]][coord[1]] = None
+
+    def pawnPromotion(self, board, second_click_coord, helpRemovePiece, screen, helpDrawPiece):
+        current_piece = board[second_click_coord[0]][second_click_coord[1]]
+        if current_piece == "wP" or "bP":
+            if current_piece is True:  # current piece is black
+                if current_piece[0] == 7:
+                    helpRemovePiece(screen, second_click_coord[0], second_click_coord[1])
+                    helpDrawPiece(screen, second_click_coord[0], second_click_coord[1],
+                                  getattr(current_piece, 'bQ'))
+                    print(' you promoted your pawn!')
+                else:
+                    pass
+            elif current_piece is False:  # current piece is white
+                if current_piece[0] == 0:
+                    helpRemovePiece(screen, second_click_coord[0], second_click_coord[1])
+                    helpDrawPiece(screen, second_click_coord[0], second_click_coord[1],
+                                  getattr(current_piece, 'wQ'))
+                    print(' you promoted your pawn!')
+                else:
+                    pass
+

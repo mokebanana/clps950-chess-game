@@ -115,8 +115,7 @@ def main():
                         gs.whiteMoveNext = not gs.whiteMoveNext  # toggle whiteMoveNext -> not doing anything rn
 
                         # condition for en passant: black pawn
-                        if isinstance(current_piece, pieces.Pawn) and current_piece.color and first_click_coord[
-                            0] == 4:
+                        if isinstance(current_piece, pieces.Pawn) and current_piece.color and first_click_coord[0] == 4:
                             # down 1 left 1:
                             if first_second_diff == (1, -1):
                                 l1 = board[first_click_coord[0]][first_click_coord[1] - 1]
@@ -134,8 +133,7 @@ def main():
                                             gs.movePiecePassant(r1)
                                             helpRemovePiece(screen, first_click_coord[0], first_click_coord[1] + 1)
                         # white pawn
-                        if isinstance(current_piece, pieces.Pawn) and not current_piece.color and first_click_coord[
-                            0] == 3:
+                        if isinstance(current_piece, pieces.Pawn) and not current_piece.color and first_click_coord[0] == 3:
                             # up 1 left 1:
                             if first_second_diff == (-1, -1):
                                 l1 = board[first_click_coord[0]][first_click_coord[1] - 1]
@@ -162,7 +160,7 @@ def main():
 
                         # remove old piece graphics
                         helpRemovePiece(screen, first_click_coord[0], first_click_coord[1])
-
+                        gs.pawnPromotion(board, second_click_coord, helpRemovePiece, screen, helpDrawPiece)
                         # update graphics
                         p.display.flip()
 

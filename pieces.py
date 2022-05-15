@@ -306,3 +306,12 @@ def helpCheckPiece(first_click_coord, board, board_coord, possible_moves, tup):
         else:
             possible_moves.append(considering_coord)
             considering_coord = sumTuple(considering_coord, tup)
+
+
+
+
+
+
+
+
+
