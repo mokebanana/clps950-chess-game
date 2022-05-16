@@ -1,7 +1,3 @@
-a_white_piece = "wR" or "wP" or "wB" or "wK" or "wN" or "wQ"
-a_black_piece = "bR" or "bP" or "bB" or "bK" or "bN" or "bQ"
-
-
 class chessPiece():  # parent class
     def __init__(self, name, color, coord):
         self.name = name
@@ -28,12 +24,11 @@ class Pawn(chessPiece):
     def get_moves(self, board_coord, board, first_click_coord):
         """
         Function to return all possible moves of the piece at the location of the first click
-        :param board_coord: current state of the board
-        :param board: the
-        :param first_click_coord:
-        :return:
+        :param board_coord: the current coordinate of the piece
+        :param board: current state of the board
+        :param first_click_coord: the current coordinate of the piece
+        :return: all possible moves for the piece
         """
-        black_pawn_moves = []
 
         # black to move
         if self.color is True:
@@ -64,14 +59,12 @@ class Pawn(chessPiece):
             if withinBoardBounds(sumTuple(board_coord, (1, 1))):
                 d1r1 = board[board_coord[0] + 1][board_coord[1] + 1]
                 if isinstance(d1r1, chessPiece):
-                    print('a chess piece at the right diagonal')
                     if not d1r1.color:
                         possible_moves.append(sumTuple(first_click_coord, (1, 1)))
             # regular diagonal capture: down 1 left 1
             if withinBoardBounds(sumTuple(board_coord, (1, -1))):
                 d1l1 = board[board_coord[0] + 1][board_coord[1] - 1]
                 if isinstance(d1l1, chessPiece):
-                    print('a chess piece at the left diagonal')
                     if not d1l1.color:
                         possible_moves.append(sumTuple(first_click_coord, (1, -1)))
 
@@ -114,14 +107,12 @@ class Pawn(chessPiece):
             if withinBoardBounds(sumTuple(board_coord, (-1, 1))):
                 u1r1 = board[board_coord[0] - 1][board_coord[1] + 1]
                 if isinstance(u1r1, chessPiece):
-                    print('a chess piece at the right diagonal')
                     if u1r1.color:
                         possible_moves.append(sumTuple(first_click_coord, (-1, 1)))  # can move up 1 right 1
             # capture diagonal: up 1 left 1
             if withinBoardBounds(sumTuple(board_coord, (-1, -1))):
                 u1l1 = board[board_coord[0] - 1][board_coord[1] - 1]
                 if isinstance(u1l1, chessPiece):
-                    print('a chess piece at the left diagonal')
                     if u1l1.color:
                         possible_moves.append(sumTuple(first_click_coord, (-1, -1)))  # can move up 1 left 1
 
