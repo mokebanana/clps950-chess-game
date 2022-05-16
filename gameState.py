@@ -83,33 +83,22 @@ class GameState:
         if isinstance(curr_piece, pieces.chessPiece):
             curr_piece.moveTo(new_coord)
             if isinstance(curr_piece, pieces.Pawn):
-                print('old move count: ' + str(curr_piece.num_moves))
-                print('because this is a pawn piece, need to advance the move count')
                 curr_piece.num_moves += 1  # because this is a pawn piece, need to advance the move count
-                print('new move count: ' + str(curr_piece.num_moves))
 
     def movePiecePassant(self, piece_to_remove):
         if isinstance(piece_to_remove, pieces.Pawn):
             coord = piece_to_remove.coord
             self.board[coord[0]][coord[1]] = None
 
-    def pawnPromotion(self, board, second_click_coord, helpRemovePiece, screen, helpDrawPiece):
-        current_piece = board[second_click_coord[0]][second_click_coord[1]]
-        if current_piece == "wP" or "bP":
-            if current_piece is True:  # current piece is black
-                if current_piece[0] == 7:
-                    helpRemovePiece(screen, second_click_coord[0], second_click_coord[1])
-                    helpDrawPiece(screen, second_click_coord[0], second_click_coord[1],
-                                  getattr(current_piece, 'bQ'))
-                    print(' you promoted your pawn!')
-                else:
-                    pass
-            elif current_piece is False:  # current piece is white
-                if current_piece[0] == 0:
-                    helpRemovePiece(screen, second_click_coord[0], second_click_coord[1])
-                    helpDrawPiece(screen, second_click_coord[0], second_click_coord[1],
-                                  getattr(current_piece, 'wQ'))
-                    print(' you promoted your pawn!')
-                else:
-                    pass
+    def pawnPromotion(self, second_click_coord):
+        print('got to pawnPromotion in gs')
+        r = second_click_coord[0]
+        c = second_click_coord[1]
+        pawn_to_be_promoted = self.board[r][c]
+        if isinstance(pawn_to_be_promoted, pieces.Pawn):
+            if pawn_to_be_promoted.color:
+                self.board[r][c] = pieces.Queen('bQ', True, second_click_coord)
+            else:
+                self.board[r][c] = pieces.Queen('wQ', False, second_click_coord)
+
 

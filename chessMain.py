@@ -5,7 +5,7 @@ import numpy as np
 import gameState
 import pieces
 
-boardLength = 500
+boardLength = 900
 numSquares = 8
 squareLength = boardLength // numSquares
 imageDict = {}  # keys: piece name, val: corresponding image of piece
@@ -112,7 +112,7 @@ def main():
                     else:
                         print('     second click, not in same spot, move to new coord')
                         displayGS(screen, gs)
-                        gs.whiteMoveNext = not gs.whiteMoveNext  # toggle whiteMoveNext -> not doing anything rn
+                        gs.whiteMoveNext = not gs.whiteMoveNext
 
                         # condition for en passant: black pawn
                         if isinstance(current_piece, pieces.Pawn) and current_piece.color and first_click_coord[0] == 4:
@@ -152,15 +152,31 @@ def main():
                                             helpRemovePiece(screen, first_click_coord[0], first_click_coord[1] + 1)
 
                         gs.movePiece(current_piece, second_click_coord)
+
+                        # pawn promotion: black pawn
+                        if isinstance(current_piece, pieces.Pawn) and current_piece.color and second_click_coord[
+                            0] == 7:
+                            gs.pawnPromotion(second_click_coord)
+                            current_piece = gs.board[second_click_coord[0]][second_click_coord[1]]
+                            displayGS(screen, gs)
+                            p.display.flip()
+                        if isinstance(current_piece, pieces.Pawn) and not current_piece.color and second_click_coord[
+                            0] == 0:
+                            gs.pawnPromotion(second_click_coord)
+                            current_piece = gs.board[second_click_coord[0]][second_click_coord[1]]
+                            displayGS(screen, gs)
+                            p.display.flip()
+
                         print(*gs.board)
 
                         # draw selected piece at new position
                         helpRemovePiece(screen, board_coord[0], board_coord[1])
                         helpDrawPiece(screen, board_coord[0], board_coord[1], getattr(current_piece, 'name'))
+                        print(getattr(current_piece, 'name'))
 
                         # remove old piece graphics
                         helpRemovePiece(screen, first_click_coord[0], first_click_coord[1])
-                        gs.pawnPromotion(board, second_click_coord, helpRemovePiece, screen, helpDrawPiece)
+
                         # update graphics
                         p.display.flip()
 
@@ -179,12 +195,12 @@ def displayGS(screen, gs):
                     p.draw.rect(screen, (209, 207, 188), p.Rect(column * squareLength, row * squareLength, squareLength,
                                                                 squareLength))
                 else:
-                    p.draw.rect(screen, (119, 145, 116), p.Rect(column * squareLength, row * squareLength, squareLength,
+                    p.draw.rect(screen, (149, 165, 151), p.Rect(column * squareLength, row * squareLength, squareLength,
                                                                 squareLength))
         else:  # odd index rows
             for column in range(numSquares):
                 if column % 2 == 0:  # even index cols = gray
-                    p.draw.rect(screen, (119, 145, 116), p.Rect(column * squareLength, row * squareLength, squareLength,
+                    p.draw.rect(screen, (149, 165, 151), p.Rect(column * squareLength, row * squareLength, squareLength,
                                                                 squareLength))
                 else:
                     p.draw.rect(screen, (209, 207, 188), p.Rect(column * squareLength, row * squareLength, squareLength,
