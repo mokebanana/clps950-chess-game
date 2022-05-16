@@ -101,4 +101,6 @@ class GameState:
             else:
                 self.board[r][c] = pieces.Queen('wQ', False, second_click_coord)
 
+    def checkmate(self, first_click_coord, second_click_coord, current_piece, board_coord, board):
+        first_click_coord = second_click_coord
 

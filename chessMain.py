@@ -5,7 +5,7 @@ import numpy as np
 import gameState
 import pieces
 
-boardLength = 900
+boardLength = 500
 numSquares = 8
 squareLength = boardLength // numSquares
 imageDict = {}  # keys: piece name, val: corresponding image of piece
