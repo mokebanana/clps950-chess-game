@@ -5,7 +5,7 @@ import numpy as np
 import gameState
 import pieces
 
-boardLength = 500
+boardLength = 900
 numSquares = 8
 squareLength = boardLength // numSquares
 imageDict = {}  # keys: piece name, val: corresponding image of piece
@@ -66,7 +66,6 @@ def main():
                 # handle first click
                 if click_count == 1:
                     mouse_coord = p.mouse.get_pos()
-                    print(mouse_coord)
                     board_coord = helpGetSquare(mouse_coord)
                     first_click_coord = board_coord  # save where the first click was to check against second click
                     print('     first click at coord ' + str(first_click_coord))
@@ -171,23 +170,23 @@ def main():
                             displayGS(screen, gs)
                             p.display.flip()
 
-                        print(*gs.board)
+                        # print(*gs.board)
 
                         # now that all the pieces have moved and current_piece is 100% the moved piece (incl. pawn p.)
                         # check the possible moves of current_piece to see if it overlaps with w/b king's position
                         white_king = board[white_king_coord[0]][white_king_coord[1]]
                         if isinstance(white_king, pieces.King):
                             white_king_moves = white_king.get_moves(white_king_coord, board, white_king_coord)
-                            print('here are the possible moves of the white king ' + str(white_king_moves))
+                            print('>>> possible moves of the white king ' + str(white_king_moves))
                         black_king = board[black_king_coord[0]][black_king_coord[1]]
                         if isinstance(black_king, pieces.King):
                             black_king_moves = black_king.get_moves(black_king_coord, board, black_king_coord)
-                            print('here are the possible moves of the black king ' + str(black_king_moves))
+                            print('>>> possible moves of the black king ' + str(black_king_moves))
 
                         # check the possible moves of the newly moved piece to see if it overlaps with king moves
                         if isinstance(current_piece, pieces.chessPiece) and not isinstance(current_piece, pieces.King):
                             pos_moves = current_piece.get_moves(current_piece.coord, board, current_piece.coord)
-                            print('here are the possible moves of the current piece: ' + str(pos_moves))
+                            print('>>> possible moves of the current piece: ' + str(pos_moves))
                             num_wkm = len(white_king_moves)
                             num_wkm_blocked = 0
                             for wkm in white_king_moves:
@@ -200,12 +199,10 @@ def main():
                                 highlightOrange(screen, white_king_coord)
 
                             num_bkm = len(black_king_moves)
-                            print('>>> the king has ' + str(num_bkm) + ' possible moves')
                             num_bkm_blocked = 0
                             for bkm in black_king_moves:
                                 if bkm in pos_moves:
                                     num_bkm_blocked += 1
-                            print('>>> number of black king moves blocked: ' + str(num_bkm_blocked))
                             if num_bkm == num_bkm_blocked and black_king_coord in pos_moves:
                                 print('Checkmate, white wins!')
                             elif black_king_coord in pos_moves:
