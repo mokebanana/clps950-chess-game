@@ -70,22 +70,13 @@ pieceImages folder:
 6. Checkmate is not notified - if player is in check and cannot get out of it, 
    it is checkmate and that player loses
 
-<<<<<<< Updated upstream
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-                  *******************************
-                  *                             *
-                  *   Our work logged per day   *
-                  *                             *
-                  *******************************
-=======
 # Our work & meeting schedule
                            
 Can be seen through our extensive GitHub history, not otherwise documented due to redundancy
 
 
 # Work log
->>>>>>> Stashed changes
 
 We followed the schedule above and coded everything together.
 
