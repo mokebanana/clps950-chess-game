@@ -71,7 +71,6 @@ class GameState:
         """
         # update square at oldCoord: None
         old_coord = getattr(curr_piece, 'coord')
-        print('---- ' + str(old_coord))
         old_r = old_coord[0]
         old_c = old_coord[1]
         self.board[old_r][old_c] = None
@@ -86,11 +85,19 @@ class GameState:
                 curr_piece.num_moves += 1  # because this is a pawn piece, need to advance the move count
 
     def movePiecePassant(self, piece_to_remove):
+        """
+        Function to update the board when a pawn captures en passant
+        :param piece_to_remove: the captured opponent piece
+        """
         if isinstance(piece_to_remove, pieces.Pawn):
             coord = piece_to_remove.coord
             self.board[coord[0]][coord[1]] = None
 
     def pawnPromotion(self, second_click_coord):
+        """
+        Function to update the board when a pawn promotes to a queen of the same color when reaching the last rank
+        :param second_click_coord: the coordinate of target square to perform pawn promotion
+        """
         print('got to pawnPromotion in gs')
         r = second_click_coord[0]
         c = second_click_coord[1]

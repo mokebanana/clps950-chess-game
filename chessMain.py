@@ -172,7 +172,6 @@ def main():
                         # draw selected piece at new position
                         helpRemovePiece(screen, board_coord[0], board_coord[1])
                         helpDrawPiece(screen, board_coord[0], board_coord[1], getattr(current_piece, 'name'))
-                        print(getattr(current_piece, 'name'))
 
                         # remove old piece graphics
                         helpRemovePiece(screen, first_click_coord[0], first_click_coord[1])
@@ -242,10 +241,9 @@ def helpGetSquare(mouse_pos):
 
 def highlightGreen(screen, board_pos):
     """
-    Helper fun to
-    :param screen:
-    :param board_pos:
-    :return:
+    Function to highlight the square at board_pos green on the screen
+    :param screen: pygame screen
+    :param board_pos: tuple representing the board position to highlight
     """
     board_x = board_pos[0]
     board_y = board_pos[1]
@@ -255,10 +253,9 @@ def highlightGreen(screen, board_pos):
 
 def highlightRed(screen, board_pos):
     """
-
-    :param screen:
-    :param board_pos:
-    :return:
+    Function to highlight the square at board_pos red on the screen
+    :param screen: pygame screen
+    :param board_pos: tuple representing the board position to highlight
     """
     board_x = board_pos[0]
     board_y = board_pos[1]
@@ -268,18 +265,14 @@ def highlightRed(screen, board_pos):
 
 def helpRemovePiece(screen, board_x, board_y):
     """
-
-    :param screen:
-    :param board_x:
-    :param board_y:
-    :return:
+    Helper function to update graphics after a piece is captured
     """
     xy_sum = board_x + board_y
     if xy_sum % 2 == 0:
         p.draw.rect(screen, (209, 207, 188), p.Rect(board_y * squareLength, board_x * squareLength, squareLength,
                                                     squareLength))
     else:
-        p.draw.rect(screen, (119, 145, 116), p.Rect(board_y * squareLength, board_x * squareLength, squareLength,
+        p.draw.rect(screen, (149, 165, 151), p.Rect(board_y * squareLength, board_x * squareLength, squareLength,
                                                     squareLength))
 
 
