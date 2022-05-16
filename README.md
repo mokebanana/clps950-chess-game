@@ -1,83 +1,76 @@
-# clps950-chess-game
 # Final project for CLPS 0950
 
-                     ************************
-                     *                      *
-                     *   Code Description   *
-                     *                      *
-                     ************************
+Team Chess
+- Angela Li
+- Tani Najman-Licht
 
-# our main documents *
+# Our resource documents
 
 - Object-oriented coding in python: https://realpython.com/python3-object-oriented-programming/
+- pygame & numpy package/library
 
-- pygame package/library 
-                         - - - - - - - - -
 
-# our main functions *
+# Our main functions & objects
+
+Main():
+
+- driver for the game, updates game graphics through accessing the game state and pieces
 
 Piece objects: 
     
-    get_moves: compiles an array of all the possible 
-        moves for that piece on that turn 
+- get_moves: compiles an array of all the possible moves for that piece on that turn 
+- helpCheckPiece: checks if square is a valid move for piece
+- withinBoardBounds: makes sure moves are contained on the board
 
-    helpCheckPiece: checks if square is a valid move for piece
+Others: 
 
-    withinBoardBounds: makes sure moves are contained on the board
+- movePiece: moves piece, updates new square and old square
+- pieceGraphics: uploads graphics onto the board
+- displayGS: displays the board and the pieces for the game
+- highlightGreen/Red: highlights the square of the piece clicked on different color for different color piece
 
-Other: 
-
-    movePiece: moves piece, updates new square and old square 
-
-    pieceGraphics: uploads graphics onto the board
-
-    displayGS: displays the board and the pieces for the game 
-
-    highlightGreen/Red: highlights the square of the piece clicked on
-        different color for different color piece
-
-                         - - - - - - - - -
-
-# our main scripts *
+# Our main files
 
 pieces.py:
-sets up the parents class - chessPieces - and the subclasses, 
-the objects of the individual types of pieces
-includes the rules for how the pieces move and their attributes 
-possible_moves is the array for the moves each piece can move every turn 
+
+- sets up the parents class - chessPieces
+- and the subclasses - Pawn, Knight, Bishop, Rook, Queen, King
+  - each representing objects of the individual types of pieces
+  - includes the rules for how the pieces move
+  - the method possible_moves generates a list of the moves each piece can move every turn 
 
 gameState.py:
-creates the board and initializes the pieces on the 
-board and their location 
-has functions for special moves: en passant and pawn promotion
+
+- creates the board and initializes the pieces on the board and their location
+- has functions for special moves: en passant and pawn promotion
+- updates the board after moves
 
 chessMain.py:
-the current state of the game
-imports information from pieces and gameState
-allows player to click and choose piece and move it to valid coordinate
-highlights squares of selected pieces and possible moves 
-removes pieces that have been captured 
-updates the board after moves 
+
+- draws the current state of the game
+- imports information from pieces and gameState
+- allows player to click and choose piece and move it to valid coordinate
+- highlights squares of selected pieces and possible moves
+- removes pieces that have been captured from the board
+
+pieceImages folder:
+
+- all original artwork by Angela
 
 
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-                     *************************
-                     *                       *
-                     *   User Instructions   *
-                     *                       *
-                     *************************
+# User instructions
 
 1. Run chessMain or main()
 2. Click on piece to move it
    1. first click to select piece
    2. second click to select square to move to (valid moves are highlighted) 
-3. white and black switch off moves, beginning with white 
-4. move back and forth until one player checkmates other player
-5. when king is in check, player must move out of check by blocking it or moving King
-6. checkmate is not notified - if player is in check and cannot get out of it, 
+3. White and black switch off moves, beginning with white 
+4. Move back and forth until one player checkmates other player
+5. When king is in check, player must move out of check by blocking it or moving King
+6. Checkmate is not notified - if player is in check and cannot get out of it, 
    it is checkmate and that player loses
 
+<<<<<<< Updated upstream
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
                   *******************************
@@ -85,8 +78,16 @@ updates the board after moves
                   *   Our work logged per day   *
                   *                             *
                   *******************************
+=======
+# Our work & meeting schedule
+                           
+Can be seen through our extensive GitHub history, not otherwise documented due to redundancy
 
-We followed the schedule above and coded everything together
+
+# Work log
+>>>>>>> Stashed changes
+
+We followed the schedule above and coded everything together.
 
 4/25
 - submit proposal
@@ -134,7 +135,7 @@ We followed the schedule above and coded everything together
 - bishop problem - some potential moves are off the board
 
 5/12 
-- highlights squares of pieces clicked on different colors
+- highlight squares of pieces clicked on different colors
   depending on side 
 - fixes black pawns to work (missing return possible_moves)
 - fixing move rules, debugging, adding tuples together 
@@ -157,5 +158,5 @@ We followed the schedule above and coded everything together
 - fix all the pieces so that they work with the moves, create queen moves
 - create pawn promotion function and implement it into chessMain
 - check notification when king in check 
-- attempted making castleing function and checkmate too
-    didn't quite get it to work 
+- attempted making castling function and checkmate, but didn't quite get it to work
+- submit project via email and repo link :o)
