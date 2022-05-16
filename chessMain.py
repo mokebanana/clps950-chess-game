@@ -21,6 +21,7 @@ def pieceGraphics():
         imageDict['b' + piece] = p.image.load("pieceImages/b" + piece + ".png")
     imageDict['border'] = p.image.load("pieceImages/border.png")
     imageDict['redborder'] = p.image.load("pieceImages/redborder.png")
+    imageDict['orangeborder'] = p.image.load("pieceImages/orangeborder.png")
 
 
 def main():
@@ -39,11 +40,14 @@ def main():
 
     displayGS(screen, gs)  # displays the board and pieces
     p.display.flip()
-    fps_clock = p.time.Clock()
     click_count = 0
     current_piece = None
     first_click_coord = None
     possible_moves = None
+    white_king_coord = (7, 4)
+    black_king_coord = (0, 4)
+    white_king_moves = []
+    black_king_moves = []
 
     running = True
     while running:
@@ -169,6 +173,52 @@ def main():
 
                         print(*gs.board)
 
+                        # now that all the pieces have moved and current_piece is 100% the moved piece (incl. pawn p.)
+                        # check the possible moves of current_piece to see if it overlaps with w/b king's position
+                        white_king = board[white_king_coord[0]][white_king_coord[1]]
+                        if isinstance(white_king, pieces.King):
+                            white_king_moves = white_king.get_moves(white_king_coord, board, white_king_coord)
+                            print('here are the possible moves of the white king ' + str(white_king_moves))
+                        black_king = board[black_king_coord[0]][black_king_coord[1]]
+                        if isinstance(black_king, pieces.King):
+                            black_king_moves = black_king.get_moves(black_king_coord, board, black_king_coord)
+                            print('here are the possible moves of the black king ' + str(black_king_moves))
+
+                        # check the possible moves of the newly moved piece to see if it overlaps with king moves
+                        if isinstance(current_piece, pieces.chessPiece) and not isinstance(current_piece, pieces.King):
+                            pos_moves = current_piece.get_moves(current_piece.coord, board, current_piece.coord)
+                            print('here are the possible moves of the current piece: ' + str(pos_moves))
+                            num_wkm = len(white_king_moves)
+                            num_wkm_blocked = 0
+                            for wkm in white_king_moves:
+                                if wkm in pos_moves:
+                                    num_wkm_blocked += 1
+                            if num_wkm == num_wkm_blocked and white_king_coord in pos_moves:
+                                print('Checkmate, black wins!')
+                            elif white_king_coord in pos_moves:
+                                print('King is in check!')
+                                highlightOrange(screen, white_king_coord)
+
+                            num_bkm = len(black_king_moves)
+                            print('>>> the king has ' + str(num_bkm) + ' possible moves')
+                            num_bkm_blocked = 0
+                            for bkm in black_king_moves:
+                                if bkm in pos_moves:
+                                    num_bkm_blocked += 1
+                            print('>>> number of black king moves blocked: ' + str(num_bkm_blocked))
+                            if num_bkm == num_bkm_blocked and black_king_coord in pos_moves:
+                                print('Checkmate, white wins!')
+                            elif black_king_coord in pos_moves:
+                                print('King is in check!')
+                                highlightOrange(screen, black_king_coord)
+
+                        # update king coordinates if the king has moved
+                        if isinstance(current_piece, pieces.King):
+                            if current_piece.color:
+                                black_king_coord = current_piece.coord
+                            else:
+                                white_king_coord = current_piece.coord
+
                         # draw selected piece at new position
                         helpRemovePiece(screen, board_coord[0], board_coord[1])
                         helpDrawPiece(screen, board_coord[0], board_coord[1], getattr(current_piece, 'name'))
@@ -260,6 +310,17 @@ def highlightRed(screen, board_pos):
     board_x = board_pos[0]
     board_y = board_pos[1]
     screen.blit(p.transform.scale(imageDict['redborder'], (squareLength, squareLength)),
+                (board_y * squareLength, board_x * squareLength))
+
+def highlightOrange(screen, board_pos):
+    """
+    Function to highlight the square at board_pos orange on the screen
+    :param screen: pygame screen
+    :param board_pos: tuple representing the board position to highlight
+    """
+    board_x = board_pos[0]
+    board_y = board_pos[1]
+    screen.blit(p.transform.scale(imageDict['orangeborder'], (squareLength, squareLength)),
                 (board_y * squareLength, board_x * squareLength))
 
 

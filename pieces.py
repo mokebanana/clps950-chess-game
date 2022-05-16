@@ -14,6 +14,9 @@ class chessPiece():  # parent class
     def __repr__(self):
         return self.name
 
+    def get_moves(self, board_coord, board, first_click_coord):
+        pass
+
 
 # classes for the pieces themselves
 class Pawn(chessPiece):
@@ -285,8 +288,6 @@ def helpCheckPiece(first_click_coord, board, board_coord, possible_moves, tup):
                     break
                 if target_square.color:  # target square has a black piece
                     possible_moves.append(considering_coord)
-                    if target_square.name is "bK":
-                        print('Check!')
                     break
 
             if current_piece.color:  # current piece is black
@@ -294,8 +295,6 @@ def helpCheckPiece(first_click_coord, board, board_coord, possible_moves, tup):
                     break
                 if not target_square.color:  # target square has a white piece
                     possible_moves.append(considering_coord)
-                    if target_square.name is "wK":
-                        print('Check!')
                     break
         # considering an empty square
         else:
